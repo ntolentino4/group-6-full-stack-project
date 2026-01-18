@@ -1,4 +1,6 @@
-export const mockExpenses = [
+import type { Expense } from '../types'
+
+export const mockExpenses: Expense[] = [
     { id: 1, amount: 25.50, category: "Food", tag: "groceries", date: "2026-01-15", description: "Grocery shopping at Superstore" },
     { id: 2, amount: 12.99, category: "Food", tag: "restaurant", date: "2026-01-15", description: "Lunch at Tim Hortons" },
     { id: 3, amount: 45.00, category: "Transport", tag: "gas", date: "2026-01-14", description: "Gas station fill-up" },

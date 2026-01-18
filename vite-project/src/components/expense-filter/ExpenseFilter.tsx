@@ -1,11 +1,12 @@
 import { mockExpenses } from '../../data/mockExpenses'
+import type { ExpenseCategory } from '../../types'
 import './ExpenseFilter.css'
 import { useState } from 'react'
 
 function ExpenseFilter() {
 
   // Default category state "Shopping"
-  const [selectedCategory, setSelectedCategory] = useState("Shopping")
+  const [selectedCategory, setSelectedCategory] = useState<ExpenseCategory>("Shopping")
 
 // Filter the expenses by the selected expense.category, default "Shopping"". 
   const filteredExpenses = mockExpenses.filter(
@@ -16,7 +17,7 @@ function ExpenseFilter() {
   return (
     <section className="expense-filter">
        <label htmlFor="category-select">Select Category: </label>
-       <select id="category-select" value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
+       <select id="category-select" value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value as ExpenseCategory)}>
         <option value="Food">Food</option>
         <option value="Transport">Transport</option>
         <option value="Housing">Housing</option>
