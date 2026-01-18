@@ -1,0 +1,22 @@
+.expense-filter {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px;
+    max-width: 600px;
+  }
+  
+  .expense-filter ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .expense-filter li {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .expense-filter li:last-child {
+    border-bottom: none;
+  }
