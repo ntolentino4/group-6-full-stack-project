@@ -25,9 +25,9 @@ A React-based expense tracking application that allows users to view recent expe
 
 ### Local Development
 
-cd vite-project
-npm install
-npm run dev
+- cd vite-project
+- npm install
+- npm run dev
 
 
 ## Sprint Kanban Items
