@@ -1,18 +1,19 @@
-# group-6-full-stack-project
+# Personal Expense Tracker App
 
-## Project Team Section
+## Project Team Information
 
-  Team Members:
-  Ashley Rohleder
-  Helen Castillo
-  Neil Tolentino
+**Team Name:** Group 6
 
-## Project General Description 
+**Team Members:**
+- Ashley Rohleder
+- Helen Castillo
+- Neil Tolentino
 
+## Project General Description
+A React-based expense tracking application that allows users to view recent expenses, add new ones and filter them by category.
 
-## High-level User Stories
+## Three High-Level User Stories:
 
-T.1 Component ExpenseFilter:
+**Story 3: Expense Filter Component**
 "As a user, I want to filter my expenses by category so that I can easily view and analyze my spending habits".
-
 
