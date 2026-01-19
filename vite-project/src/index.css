@@ -1,37 +1,34 @@
 :root {
-  font-family: Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-  color: #2d3e2f; /* Dark green-gray - Primary text */
-  background-color: #A1CDA8; /* Celadon Light - Main background */
+  /* Colors from Image */
+  --color-granite: #627264;
+  --color-celadon-light: #a1cda8;
+  --color-celadon-mint: #b5dfca;
+  --color-frozen-water: #c5e7e2;
+  --color-lilac-ash: #ad9baa;
+
+  /* Typography */
+  --font-primary: "Segoe UI", Arial, sans-serif;
+  --font-size-h1: 32px;
+  --font-size-h2: 24px;
+  --font-size-body: 16px;
+  --font-size-small: 14px;
+
+  /* Shared Specs */
+  --border-radius-lg: 12px;
+  --border-radius-sm: 6px;
+  --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  margin: 0;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1, h2 {
-  color: #2d3e2f; /* Dark green-gray */
-  font-family: Arial, sans-serif;
-}
-
-h1 {
-  font-size: 32px;
-}
-
-h2 {
-  font-size: 24px;
-}
-
-/* Base text styles */
-p, span, div {
-  font-size: 16px; /* Body Text */
-  color: #2d3e2f; /*Dark green-gray */
-}
-
-small {
-  font-size: 14px; /* Small Text */
+  font-family: var(--font-primary);
+  background-color: var(--color-celadon-light);
+  color: var(--color-granite);
+  line-height: 1.6;
 }
 

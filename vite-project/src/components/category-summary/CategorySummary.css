@@ -1,0 +1,28 @@
+.category-summary {
+  background-color: var(--color-celadon-mint);
+  border: 2px solid var(--color-frozen-water);
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.category-summary ul {
+  list-style: none;
+  padding: 0;
+}
+
+.highest-spending {
+  background-color: var(--color-frozen-water);
+  color: var(--color-granite);
+  font-weight: bold;
+  padding: 8px;
+  border-radius: 6px;
+  margin: 4px 0;
+}
+
+.overall-total {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 2px solid var(--color-frozen-water);
+  text-align: right;
+  color: var(--color-granite);
+}
