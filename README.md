@@ -40,20 +40,12 @@ A React-based expense tracking application that allows users to view recent expe
 
 ## Sprint Kanban Items
 
-### Items Completed
-| Kanban Item | Assigned To |
-|------------|-------------|----------------|
-| T.1: Set up Project Git Repository | Neil Tolentino | 
-| Set up: Project Kanban Board | Ashley Rohleder | 
-| T.2: Project Initialization | Helen Castillo | 
-| Planning: Sprint 1 Components | Ashley Rohleder | 
-|------------|-------------|----------------|
-| I.1: Expense Filter Component | Ashley Rohleder | 
-|------------|-------------|--------|
-| I.1: Category Summary Component | Helen Castillo | 
-| T.5: App Stylesheet and Style Guide | Helen Castillo | 
-| T.4: Integration | Ashley Rohleder | 
-| T.3: Project Readme | Neil Tolentino | 
-|------------|-------------|--------|
-| T.6: Team Vercel Account/Management | Neil Tolentino | 
-| I.1: Recent Expenses List Component | Neil Tolentino | 
+T.1 : Set up Project Git Repository -  Neil Tolentino
+T.2 : Project Initialization - Helen Castillo
+T.3 : Project Readme - Neil Tolentino
+T.4 : Integration - Ashley Rohleder
+T.5 : App Stylesheet and Style Guide - Helen Castillo 
+T.6: Team Vercel Account/Management - Neil Tolentino
+I.1: Recent Expenses List Component - Neil Tolentino
+I.1: Expense Filter Component - Ashley Rohleder
+I.1: Category Summary Component - Helen Castillo
