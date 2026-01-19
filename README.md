@@ -14,12 +14,20 @@ A React-based expense tracking application that allows users to view recent expe
 
 ## Three High-Level User Stories:
 
+**Story 1: Recent Expense List Component**
+
+"As a user, I want to view the list of my recent expense so that I can track my current spending".
+
+**Story 2: Expense Category Summary Component**
+
+"As a user, I want to record my total expense by category so that I can easily identify my highest spending". 
+
 **Story 3: Expense Filter Component**
 "As a user, I want to filter my expenses by category so that I can easily view and analyze my spending habits".
 
 ## Front-End Deployment
 
-**Status:** Pending Vercel setup (T.6: Team Vercel Account/Management)
+
 
 **Live Application:** [To be added]
 
@@ -32,29 +40,20 @@ A React-based expense tracking application that allows users to view recent expe
 
 ## Sprint Kanban Items
 
-### Done (Completed)
-| Kanban Item | Assigned To | Date Completed |
+### Items Completed
+| Kanban Item | Assigned To |
 |------------|-------------|----------------|
-| T.1: Set up Project Git Repository | Neil Tolentino | Completed Jan 16 2026 |
-| Set up: Project Kanban Board | Ashley Rohleder | Completed Jan 15 2026 |
-| T.2: Project Initialization | Helen Castillo | Completed Jan 15 2026 |
-| Planning: Sprint 1 Components | Ashley Rohleder | Completed Jan 16 2026 |
-
-### In Review
-| Kanban Item | Assigned To | Date Completed |
+| T.1: Set up Project Git Repository | Neil Tolentino | 
+| Set up: Project Kanban Board | Ashley Rohleder | 
+| T.2: Project Initialization | Helen Castillo | 
+| Planning: Sprint 1 Components | Ashley Rohleder | 
 |------------|-------------|----------------|
-| I.1: Expense Filter Component | Ashley Rohleder | Sent to PR Jan 18 2026 |
-
-### In Progress
-| Kanban Item | Assigned To | Status |
+| I.1: Expense Filter Component | Ashley Rohleder | 
 |------------|-------------|--------|
-| I.1: Category Summary Component | Helen Castillo | In Progress |
-| T.5: App Stylesheet and Style Guide | Helen Castillo | In Progress |
-| T.4: Integration | Ashley Rohleder | In Progress |
-| T.3: Project Readme | Neil Tolentino | In Progress |
-
-### Ready (To Be Picked Up)
-| Kanban Item | Assigned To | Status |
+| I.1: Category Summary Component | Helen Castillo | 
+| T.5: App Stylesheet and Style Guide | Helen Castillo | 
+| T.4: Integration | Ashley Rohleder | 
+| T.3: Project Readme | Neil Tolentino | 
 |------------|-------------|--------|
-| T.6: Team Vercel Account/Management | Neil Tolentino | Ready |
-| I.1: Recent Expenses List Component | Neil Tolentino | Ready |
+| T.6: Team Vercel Account/Management | Neil Tolentino | 
+| I.1: Recent Expenses List Component | Neil Tolentino | 
