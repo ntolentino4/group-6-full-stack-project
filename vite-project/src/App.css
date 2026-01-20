@@ -1,4 +1,40 @@
-/* Layout Container */
+/* =========================================
+   1. GLOBAL STYLES & VARIABLES
+   ========================================= */
+:root {
+  --color-granite: #3d473e;
+  --color-celadon-light: #a1cda8;
+  --color-celadon-mint: #b5dfca;
+  --color-frozen-water: #c5e7e2;
+  --color-lilac-ash: #7d6478;
+
+  --font-primary: "Segoe UI", Arial, sans-serif;
+  --font-size-h1: 2rem;
+  --font-size-h2: 1.5rem;
+  --font-size-body: 1rem;
+  --font-size-small: 0.875rem;
+
+  --radius-lg: 12px;
+  --radius-sm: 6px;
+  --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-primary);
+  background-color: var(--color-celadon-light);
+  color: var(--color-granite);
+  line-height: 1.6;
+}
+
+/* =========================================
+   2. LAYOUT
+   ========================================= */
 .app-container {
   max-width: 900px;
   margin: 0 auto;
@@ -11,80 +47,15 @@ main {
   gap: 24px;
 }
 
-/* Shared Card Styling for all 3 Components */
+/* =========================================
+   3. SHARED COMPONENT STYLING (Cards)
+   ========================================= */
 .category-summary,
 .expense-filter,
 .recent-expenses {
   background-color: var(--color-celadon-mint);
   border: 2px solid var(--color-frozen-water);
-  border-radius: var(--border-radius-lg);
+  border-radius: var(--radius-lg);
   padding: 24px;
   box-shadow: var(--card-shadow);
-}
-
-/* 1. Category Summary Specifics */
-.highest-spending {
-  background-color: var(--color-frozen-water);
-  color: var(--color-granite);
-  font-weight: bold;
-  padding: 10px;
-  border-radius: var(--border-radius-sm);
-  margin: 8px 0;
-}
-
-.overall-total {
-  margin-top: 1.5rem;
-  padding-top: 1rem;
-  border-top: 2px solid var(--color-frozen-water);
-  text-align: right;
-  font-size: 1.2rem;
-  font-weight: bold;
-}
-
-/* 2. Expense Filter Specifics */
-.filter-controls {
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.expense-filter select {
-  padding: 10px;
-  border-radius: var(--border-radius-sm);
-  border: 2px solid var(--color-frozen-water);
-  background-color: white;
-  color: var(--color-granite);
-  cursor: pointer;
-}
-
-/* 3. Recent Expenses Specifics */
-.expense-item {
-  padding: 16px 0;
-  border-bottom: 1px solid var(--color-frozen-water);
-  transition: background-color 0.2s;
-}
-
-.expense-item:last-child {
-  border-bottom: none;
-}
-
-.expense-item h3 {
-  color: var(--color-granite);
-  margin-bottom: 4px;
-}
-
-/* Buttons (Using the Lilac Ash accent) */
-button {
-  background-color: var(--color-lilac-ash);
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: var(--border-radius-sm);
-  font-weight: bold;
-  cursor: pointer;
-}
-
-button:hover {
-  filter: brightness(90%);
 }
