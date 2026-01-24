@@ -1,4 +1,4 @@
-import { mockExpenses } from "../../data/mockExpenses.tsx";
+import { mockExpenses } from "../../data/mockExpenses";
 import "./RecentExpenses.css";
 
 export const RecentExpenses = () => {
