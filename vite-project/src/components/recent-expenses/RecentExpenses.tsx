@@ -24,6 +24,8 @@ export const RecentExpenses = () => {
           </article>
         ))}
       </div>
+
+      
     </section>
   );
 };
