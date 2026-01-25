@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { Expense, ExpenseCategory } from "../../types";
 import "./ExpenseFilter.css";
+import ListPanel from '../shared/ListPanel';
 
 type Props = {
   expenses: Expense[];
@@ -17,7 +18,7 @@ function ExpenseFilter({ expenses }: Props) {
   );
 
   return (
-    <section className="expense-filter">
+    <ListPanel title="Filter by Category">
       {/* T.3 display shared state */}
       <p>Total expenses (shared): {expenses.length}</p>
 
@@ -42,7 +43,7 @@ function ExpenseFilter({ expenses }: Props) {
           </li>
         ))}
       </ul>
-    </section>
+    </ListPanel>
   );
 }
 

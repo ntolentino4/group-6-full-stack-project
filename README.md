@@ -37,6 +37,16 @@ A React-based expense tracking application that allows users to view recent expe
 - npm install
 - npm run dev
 
+## Shared Components
+
+The project includes reusable components in `/components/shared/`:
+
+- **NavButton**: Reusable navigation button component (used in Header)
+  - Props: `to` (string), `children` (ReactNode), `className?` (optional)
+  
+- **ListPanel**: Reusable panel container for list-based components
+  - Props: `title` (string), `children` (ReactNode), `headerContent?` (optional), `footerContent?` (optional)
+  - Available for use by: RecentExpenses, CategorySummary, ExpenseFilter
 
 ## Sprint 1 Kanban Items
 
@@ -60,18 +70,29 @@ A React-based expense tracking application that allows users to view recent expe
 
 ## Sprint 2 Kanban Items
 
-### In Progress
+### Done (Completed)
 
 | Kanban Item | Assigned To |
 |------------|-------------|
 | T.1: Install and Configure React Router | Ashley Rohleder |
 
+### In Review
+
+| Kanban Item | Assigned To |
+|------------|-------------|
+| T.4: Create Reusable Components with Props | Ashley Rohleder |
+
+### In Progress
+
+| Kanban Item | Assigned To |
+|------------|-------------|
+| I.1 - I.3: Create Expense Filter Feature Page | Ashley Rohleder |
+
 ### Backlog
 
 | Kanban Item | Assigned To |
 |------------|-------------|
-| T.3: Implement Shared State Management | Not Assigned |
-| T.2: Create Navigation Component in Layout | Not Assigned |
-| I.1 - I.3: Create Expense Filter Feature Page | Ashley Rohleder |
+| T.3: Implement Shared State Management | Neil Tolentino |
+| T.2: Create Navigation Component in Layout | Helen Castillo |
 | I.1 - I.3: Create Recent Expenses Feature Page | Neil Tolentino |
 | I.1 - I.3: Create Category Summary Feature Page | Helen Castillo |
