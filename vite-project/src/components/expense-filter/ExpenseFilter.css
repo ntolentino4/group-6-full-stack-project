@@ -1,24 +1,47 @@
+/* Container style inherits from App.css shared classes (.expense-filter) */
+
+.expense-filter label {
+  font-weight: bold;
+  margin-right: 12px;
+  color: var(--color-granite);
+  font-size: var(--font-size-body);
+}
+
+.expense-filter select {
+  padding: 8px 12px;
+  border: 2px solid var(--color-granite);
+  border-radius: var(--radius-sm);
+  background-color: white;
+  color: var(--color-granite);
+  font-size: var(--font-size-body);
+  cursor: pointer;
+  margin-bottom: 24px; /* Space between controls and list */
+}
+
+.expense-filter select:focus {
+  outline: none;
+  border-color: var(--color-lilac-ash); /* Focus accent */
+}
+
+/* List Formatting */
 .expense-filter ul {
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin-top: 16px;
 }
 
 .expense-filter li {
-  padding: 10px;
-  border-bottom: 1px solid #627264; /* Granite */
-}
-
-.expense-filter li:last-child {
-  border-bottom: none;
-}
-
-.expense-filter {
-  background-color: #b5dfca; /* Mint Celadon - lighter color for component interior */
-  border: 2px solid #c5e7e2; /* Frozen Water - border color */
-  border-radius: 8px;
-  padding: 24px;
-  margin: 20px auto;
-  max-width: 700px;
-  font-family: Arial, sans-serif;
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.4
+  ); /* Slight transparency for depth */
+  padding: 12px;
+  margin-bottom: 8px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-left: 4px solid var(--color-lilac-ash); /* Accent strip */
 }
