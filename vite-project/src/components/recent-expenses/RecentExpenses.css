@@ -1,26 +1,37 @@
-.recent-expenses {
-  background-color: var(--color-celadon-mint);
-  border: 2px solid var(--color-frozen-water);
-  border-radius: 12px;
-  padding: 24px;
+/* Container style inherits from App.css shared classes (.recent-expenses) */
+
+.recent-expenses h2 {
+  border-bottom: 2px solid var(--color-granite);
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+}
+
+.expense-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .expense-item {
-  padding: 12px 0;
-  border-bottom: 1px solid var(--color-frozen-water);
+  background-color: rgba(255, 255, 255, 0.5); /* Light overlay */
+  padding: 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-frozen-water);
+  transition: transform 0.2s ease;
 }
 
-.expense-item:last-child {
-  border-bottom: none;
+.expense-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .expense-item h3 {
-  font-size: 18px;
+  font-size: 1.1rem;
+  margin-bottom: 8px;
   color: var(--color-granite);
-  margin-bottom: 5px;
 }
 
 .expense-item p {
-  font-size: var(--font-size-small);
-  margin: 2px 0;
+  margin-bottom: 4px;
+  font-size: 0.95rem;
 }

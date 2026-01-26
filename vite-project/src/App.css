@@ -32,23 +32,15 @@ body {
   line-height: 1.6;
 }
 
-/* =========================================
-   2. LAYOUT
-   ========================================= */
-.app-container {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 40px 20px;
-}
-
-main {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+h1,
+h2,
+h3 {
+  color: var(--color-granite);
+  margin-bottom: 1rem;
 }
 
 /* =========================================
-   3. SHARED COMPONENT STYLING (Cards)
+   2. SHARED COMPONENT STYLING (Cards)
    ========================================= */
 .category-summary,
 .expense-filter,
@@ -58,4 +50,46 @@ main {
   border-radius: var(--radius-lg);
   padding: 24px;
   box-shadow: var(--card-shadow);
+}
+
+/* Common List Styling within Cards */
+ul {
+  list-style: none;
+}
+
+li {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--color-frozen-water);
+}
+
+li:last-child {
+  border-bottom: none;
+}
+
+/* Standard Button / Input Styling */
+button {
+  background-color: var(--color-lilac-ash);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: var(--font-size-body);
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+select,
+input {
+  padding: 8px;
+  border: 1px solid var(--color-granite);
+  border-radius: var(--radius-sm);
+  margin-right: 10px;
+}
+
+footer p {
+  background-color: #a1cda8;
+  color: #0b0e0b;
 }
