@@ -88,3 +88,8 @@ input {
   border-radius: var(--radius-sm);
   margin-right: 10px;
 }
+
+footer p {
+  background-color: #a1cda8;
+  color: #0b0e0b;
+}
