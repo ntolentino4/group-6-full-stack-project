@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import "./Header.css";
+
 function Header() {
   return (
     // AC 1: A <nav> component is found in the app header

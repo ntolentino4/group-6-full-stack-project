@@ -1,0 +1,33 @@
+/* 
+ * Reusable panel container matching the shared styling from App.css
+ * Can be used by: RecentExpenses, CategorySummary, ExpenseFilter
+ */
+ .list-panel {
+    background-color: var(--color-celadon-mint);
+    border: 2px solid var(--color-frozen-water);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: var(--card-shadow);
+  }
+  
+  .list-panel h2 {
+    font-size: var(--font-size-h2);
+    color: var(--color-granite);
+    margin-bottom: 16px;
+  }
+  
+  .list-panel__header {
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--color-frozen-water);
+  }
+  
+  .list-panel__content {
+    /* Content area - no special styling needed */
+  }
+  
+  .list-panel__footer {
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 2px solid var(--color-frozen-water);
+  }
