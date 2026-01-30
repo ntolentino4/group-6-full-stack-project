@@ -25,7 +25,7 @@ A React-based expense tracking application that allows users to view recent expe
 
 **Story 3: Expense Filter Component**
 
-"As a user, I want to filter my expenses by category so that I can easily view and analyze my spending habits".
+"As a user, I want to filter my expenses by one or more categories so that I can easily view and analyze my spending habits". (sprint 2)
 
 ## Front-End Deployment
 
