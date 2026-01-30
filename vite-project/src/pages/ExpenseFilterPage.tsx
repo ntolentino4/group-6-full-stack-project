@@ -1,4 +1,5 @@
-import type { Expense } from "../types";
+import { useState } from "react";
+import type { Expense, ExpenseCategory } from "../types";
 import ExpenseFilter from "../components/expense-filter/ExpenseFilter";
 
 type Props = {
@@ -7,6 +8,9 @@ type Props = {
 };
 
 const ExpenseFilterPage = ({ expenses, setExpenses }: Props) => {
+  const [selectedCategories, setSelectedCategories] = useState<ExpenseCategory[]>(["Shopping"]);
+
+  /* Demo: modify shared expenses list (for testing shared state across pages) */
   const addTestExpense = () => {
     setExpenses((prev) => [
       {
@@ -36,7 +40,11 @@ const ExpenseFilterPage = ({ expenses, setExpenses }: Props) => {
         Remove One Expense
       </button>
 
-      <ExpenseFilter expenses={expenses} />
+      <ExpenseFilter
+        expenses={expenses}
+        selectedCategories={selectedCategories}
+        setSelectedCategories={setSelectedCategories}
+      />
     </section>
   );
 };
