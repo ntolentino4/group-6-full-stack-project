@@ -17,7 +17,7 @@ A React-based expense tracking application that allows users to view recent expe
 
 **Story 1: Recent Expense List Component**
 
-"As a user, I want to view the list of my recent expense so that I can track my current spending".
+"As a user, I want to add new expense in the list of my recent expense so that I can track my spending".
 
 **Story 2: Expense Category Summary Component**
 
