@@ -1,24 +1,20 @@
 :root {
-  /* Colors from Image */
-  --color-granite: #627264;
+  --color-granite: #3d473e;
   --color-celadon-light: #a1cda8;
   --color-celadon-mint: #b5dfca;
   --color-frozen-water: #c5e7e2;
-  --color-lilac-ash: #ad9baa;
+  --color-lilac-ash: #7d6478;
 
-  /* Typography */
   --font-primary: "Segoe UI", Arial, sans-serif;
-  --font-size-h1: 32px;
-  --font-size-h2: 24px;
-  --font-size-body: 16px;
-  --font-size-small: 14px;
+  --font-size-h1: 2rem;
+  --font-size-h2: 1.5rem;
+  --font-size-body: 1rem;
+  --font-size-small: 0.875rem;
 
-  /* Shared Specs */
-  --border-radius-lg: 12px;
-  --border-radius-sm: 6px;
+  --radius-lg: 12px;
+  --radius-sm: 6px;
   --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
-
 * {
   box-sizing: border-box;
   margin: 0;
@@ -31,4 +27,3 @@ body {
   color: var(--color-granite);
   line-height: 1.6;
 }
-
