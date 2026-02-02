@@ -1,4 +1,6 @@
-export const mockExpenses = [
+import type { Expense } from "../types/index";
+
+export const mockExpenses: Expense[] = [
   {
     id: 1,
     amount: 25.5,

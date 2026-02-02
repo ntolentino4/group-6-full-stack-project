@@ -5,29 +5,30 @@
 **Team Name:** Group 6
 
 **Team Members:**
+
 - Ashley Rohleder
 - Helen Castillo
 - Neil Tolentino
 
 ## Project General Description
+
 A React-based expense tracking application that allows users to view recent expenses, add new ones and filter them by category.
 
-## Three High-Level User Stories:
+## Three High-Level User Stories
 
-**Story 1: Recent Expense List Component**
+### Story 1: Recent Expense List Component
 
-"As a user, I want to view the list of my recent expense so that I can track my current spending".
+"As a user, I want to add new expense in the list of my recent expense so that I can track my spending".
 
-**Story 2: Expense Category Summary Component**
+### Story 2: Expense Category Summary Component
 
-"As a user, I want to record my total expense by category so that I can easily identify my highest spending". 
+"As a user, I want to set budget limits for specific categories and compare them against my total expenses, so that I can instantly identify where I am overspending and adjust my habits."
 
-**Story 3: Expense Filter Component**
-"As a user, I want to filter my expenses by category so that I can easily view and analyze my spending habits".
+### Story 3: Expense Filter Component
+
+"As a user, I want to filter my expenses by one or more categories so that I can easily view and analyze my spending habits". (sprint 2)
 
 ## Front-End Deployment
-
-
 
 **Live Application:** [To be added]
 

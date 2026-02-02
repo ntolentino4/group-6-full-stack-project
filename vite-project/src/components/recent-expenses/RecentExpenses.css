@@ -1,26 +1,33 @@
-.recent-expenses {
-  background-color: var(--color-celadon-mint);
-  border: 2px solid var(--color-frozen-water);
-  border-radius: 12px;
-  padding: 24px;
+
+.expense-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .expense-item {
-  padding: 12px 0;
-  border-bottom: 1px solid var(--color-frozen-water);
+  background-color: rgba(255, 255, 255, 0.6);
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.expense-item:last-child {
-  border-bottom: none;
-}
-
-.expense-item h3 {
-  font-size: 18px;
+.expense-info h3 {
+  font-size: 1rem;
+  margin: 0;
   color: var(--color-granite);
-  margin-bottom: 5px;
 }
 
-.expense-item p {
-  font-size: var(--font-size-small);
-  margin: 2px 0;
+.expense-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
+
+.price {
+  font-weight: bold;
+  color: var(--color-granite);
+}
+
