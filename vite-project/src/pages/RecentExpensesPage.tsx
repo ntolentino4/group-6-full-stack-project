@@ -1,4 +1,4 @@
-import type React from "react";
+import React from "react";
 import type { Expense } from "../types";
 import { RecentExpenses } from "../components/recent-expenses/RecentExpenses";
 import { AddExpenseForm } from "../components/recent-expenses/AddExpenseForm";
@@ -9,9 +9,8 @@ type Props = {
 };
 
 function RecentExpensesPage({ expenses, setExpenses }: Props) {
-  const handleAddExpense = (newExpense: Expense) => {
-    setExpenses((prev) => [newExpense, ...prev]);
-  };
+  
+  // NOTE: handleAddExpense is removed because AddExpenseForm now handles it directly.
 
   const handleRemoveExpense = (id: number) => {
     setExpenses((prev) => prev.filter((item) => item.id !== id));
@@ -19,7 +18,11 @@ function RecentExpensesPage({ expenses, setExpenses }: Props) {
 
   return (
     <section>
-      <AddExpenseForm onAdd={handleAddExpense} />
+      {/* Refactored to satisfy I.2: 
+        Passing 'state' (expenses) and 'setter' (setExpenses) directly 
+      */}
+      <AddExpenseForm expenses={expenses} setExpenses={setExpenses} />
+      
       <RecentExpenses expenses={expenses} onRemove={handleRemoveExpense} />
     </section>
   );
