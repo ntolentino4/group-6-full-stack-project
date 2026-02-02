@@ -2,7 +2,6 @@ import { useState } from "react";
 import type { Expense, ExpenseCategory } from "../../types";
 import "./AddExpenseForm.css";
 
-// Updated Props to strictly meet Requirement I.2: "receives state and setter"
 type Props = {
   expenses: Expense[]; 
   setExpenses: React.Dispatch<React.SetStateAction<Expense[]>>;
@@ -30,7 +29,7 @@ export const AddExpenseForm = ({ expenses, setExpenses }: Props) => {
       date: new Date().toISOString().slice(0, 10),
     };
 
-    // Requirement Check: Updating state directly via the setter prop
+
     setExpenses((prev) => [newExpense, ...prev]);
 
     // Reset form
@@ -42,7 +41,6 @@ export const AddExpenseForm = ({ expenses, setExpenses }: Props) => {
   return (
     <form onSubmit={handleSubmit} className="expense-form">
       <h3>Add New Expense</h3>
-      {/* (Optional) Displaying state satisfies "receives state" visually if needed */}
       <p style={{fontSize: "0.8rem", color: "#666", marginBottom: "1rem"}}>
         Current Item Count: {expenses.length}
       </p>
