@@ -38,45 +38,15 @@ A React-based expense tracking application that allows users to view recent expe
 - npm install
 - npm run dev
 
-## Shared Components
 
-The project includes reusable components in `/components/shared/`:
+## Sprint Kanban Items
 
-- **NavButton**: Reusable navigation button component (used in Header)
-  - Props: `to` (string), `children` (ReactNode), `className?` (optional)
-- **ListPanel**: Reusable panel container for list-based components
-  - Props: `title` (string), `children` (ReactNode), `headerContent?` (optional), `footerContent?` (optional)
-  - Available for use by: RecentExpenses, CategorySummary, ExpenseFilter
-
-## Sprint 1 Kanban Items
-
-### Sprint 1 Done (Completed)
-
-| Kanban Item                             | Assigned To     |
-| --------------------------------------- | --------------- |
-| T.1: Set up Project Git Repository      | Neil Tolentino  |
-| Set up: Project Kanban Board            | Ashley Rohleder |
-| T.2: Project Initialization             | Helen Castillo  |
-| Planning: Sprint 1 Components           | Ashley Rohleder |
-| I.1: Expense Filter Component           | Ashley Rohleder |
-| T.1: Install and Configure React Router | Ashley Rohleder |
-| I.1: Category Summary Component         | Helen Castillo  |
-| T.5: App Stylesheet and Style Guide     | Helen Castillo  |
-| T.4: Integration                        | Ashley Rohleder |
-| T.3: Project Readme                     | Neil Tolentino  |
-| T.6: Team Vercel Account/Management     | Neil Tolentino  |
-| I.1: Recent Expenses List Component     | Neil Tolentino  |
-
-## Sprint 2 Kanban Items
-
-### Sprint 2 Done (Completed)
-
-| Kanban Item                                     | Assigned To     |
-| ----------------------------------------------- | --------------- |
-| T.1: Install and Configure React Router         | Ashley Rohleder |
-| T.2: Create Navigation Component in Layout      | Helen Castillo  |
-| T.3: Implement Shared State Management          | Neil Tolentino  |
-| T.4: Create Reusable Components with Props      | Ashley Rohleder |
-| I.1 - I.3: Create Expense Filter Feature Page   | Ashley Rohleder |
-| I.1 - I.3: Create Recent Expenses Feature Page  | Neil Tolentino  |
-| I.1 - I.3: Create Category Summary Feature Page | Helen Castillo  |
+T.1 : Set up Project Git Repository -  Neil Tolentino
+T.2 : Project Initialization - Helen Castillo
+T.3 : Project Readme - Neil Tolentino
+T.4 : Integration - Ashley Rohleder
+T.5 : App Stylesheet and Style Guide - Helen Castillo 
+T.6: Team Vercel Account/Management - Neil Tolentino
+I.1: Recent Expenses List Component - Neil Tolentino
+I.1: Expense Filter Component - Ashley Rohleder
+I.1: Category Summary Component - Helen Castillo
