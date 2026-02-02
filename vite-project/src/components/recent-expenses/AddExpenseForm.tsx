@@ -41,7 +41,7 @@ export const AddExpenseForm = ({ expenses, setExpenses }: Props) => {
   return (
     <form onSubmit={handleSubmit} className="expense-form">
       <h3>Add New Expense</h3>
-      <p style={{fontSize: "0.8rem", color: "#666", marginBottom: "1rem"}}>
+      <p style={{fontSize: "0.8rem", marginBottom: "1rem", fontWeight: "bold"}}>
         Current Item Count: {expenses.length}
       </p>
 
