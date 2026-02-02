@@ -10,7 +10,6 @@ type Props = {
 
 function RecentExpensesPage({ expenses, setExpenses }: Props) {
   
-  // NOTE: handleAddExpense is removed because AddExpenseForm now handles it directly.
 
   const handleRemoveExpense = (id: number) => {
     setExpenses((prev) => prev.filter((item) => item.id !== id));
@@ -18,9 +17,6 @@ function RecentExpensesPage({ expenses, setExpenses }: Props) {
 
   return (
     <section>
-      {/* Refactored to satisfy I.2: 
-        Passing 'state' (expenses) and 'setter' (setExpenses) directly 
-      */}
       <AddExpenseForm expenses={expenses} setExpenses={setExpenses} />
       
       <RecentExpenses expenses={expenses} onRemove={handleRemoveExpense} />
