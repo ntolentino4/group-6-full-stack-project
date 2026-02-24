@@ -3,7 +3,6 @@ import type { Expense } from "../types";
 
 // Business Logic
 export async function addExpense(newExpense: Expense): Promise<Expense> {
-
   if (!newExpense.description || newExpense.description.trim() === "") {
     throw new Error("Description is required.");
   }
@@ -21,4 +20,23 @@ export async function getAllExpenses(): Promise<Expense[]> {
 
 export async function deleteExpense(id: number): Promise<void> {
   await ExpenseRepo.deleteExpense(id);
+}
+
+export function calculateCategoryTotals(expenses: Expense[]) {
+  return expenses.reduce(
+    (acc, curr) => {
+      acc[curr.category] = (acc[curr.category] || 0) + curr.amount;
+      return acc;
+    },
+    {} as Record<string, number>,
+  );
+}
+
+export function getHighestSpendingCategory(totals: Record<string, number>) {
+  const categories = Object.keys(totals);
+  if (categories.length === 0) return null;
+
+  return categories.reduce((prev, current) =>
+    totals[current] > totals[prev] ? current : prev,
+  );
 }
