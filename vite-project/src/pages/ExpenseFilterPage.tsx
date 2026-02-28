@@ -1,32 +1,25 @@
 import { useState } from "react";
-import type { Expense, ExpenseCategory } from "../types";
+import type { ExpenseCategory } from "../types";
 import ExpenseFilter from "../components/expense-filter/ExpenseFilter";
+import { useExpenses } from "../hooks/useExpenses";
 
-type Props = {
-  expenses: Expense[];
-  setExpenses: React.Dispatch<React.SetStateAction<Expense[]>>;
-};
-
-const ExpenseFilterPage = ({ expenses, setExpenses }: Props) => {
+const ExpenseFilterPage = () => {
+  const { expenses, addExpense, removeExpense } = useExpenses();
   const [selectedCategories, setSelectedCategories] = useState<ExpenseCategory[]>(["Shopping"]);
 
   /* Demo: modify shared expenses list (for testing shared state across pages) */
   const addTestExpense = () => {
-    setExpenses((prev) => [
-      {
-        id: Date.now(),
-        amount: 5,
-        category: "Shopping",
-        tag: "filter-test",
-        date: new Date().toISOString().slice(0, 10),
-        description: "Test expense from ExpenseFilterPage",
-      },
-      ...prev,
-    ]);
+    addExpense({
+      amount: 5,
+      category: "Shopping",
+      tag: "filter-test",
+      date: new Date().toISOString().slice(0, 10),
+      description: "Test expense from ExpenseFilterPage",
+    });
   };
 
   const removeOneExpense = () => {
-    setExpenses((prev) => prev.slice(1));
+    if (expenses.length > 0) removeExpense(expenses[0].id);
   };
 
   return (

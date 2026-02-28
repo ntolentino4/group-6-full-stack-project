@@ -20,12 +20,7 @@ function App() {
       <Route element={<Layout />}>
         <Route path="/" element={<HomePage />} />
 
-        <Route
-          path="/expense-filter"
-          element={
-            <ExpenseFilterPage expenses={expenses} setExpenses={setExpenses} />
-          }
-        />
+        <Route path="/expense-filter" element={<ExpenseFilterPage />} />
 
         <Route
           path="/recent-expenses"
