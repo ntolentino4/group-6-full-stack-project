@@ -1,4 +1,4 @@
-import budgetRepository from "../apis/budgetRepo";
+import budgetRepository from "../repositories/budgetRepo";
 import type { BudgetGoal, ExpenseCategory } from "../types";
 
 const budgetService = {
