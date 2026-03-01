@@ -1,25 +1,14 @@
-import React from "react";
-import type { Expense } from "../types";
 import { RecentExpenses } from "../components/recent-expenses/RecentExpenses";
 import { AddExpenseForm } from "../components/recent-expenses/AddExpenseForm";
+import { useExpenses } from "../hooks/useExpenses";
 
-type Props = {
-  expenses: Expense[];
-  setExpenses: React.Dispatch<React.SetStateAction<Expense[]>>;
-};
-
-function RecentExpensesPage({ expenses, setExpenses }: Props) {
-  
-
-  const handleRemoveExpense = (id: number) => {
-    setExpenses((prev) => prev.filter((item) => item.id !== id));
-  };
+function RecentExpensesPage() {
+  const { expenses, addExpense, removeExpense } = useExpenses();
 
   return (
     <section>
-      <AddExpenseForm expenses={expenses} setExpenses={setExpenses} />
-      
-      <RecentExpenses expenses={expenses} onRemove={handleRemoveExpense} />
+      <AddExpenseForm expenses={expenses} onAdd={addExpense} />
+      <RecentExpenses expenses={expenses} onRemove={removeExpense} />
     </section>
   );
 }

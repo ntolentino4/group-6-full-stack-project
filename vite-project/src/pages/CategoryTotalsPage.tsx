@@ -1,13 +1,12 @@
 import { useState } from "react";
-import type { Expense, ExpenseCategory, BudgetGoal } from "../types";
+import type { ExpenseCategory, BudgetGoal } from "../types";
 import { CategorySummary } from "../components/category-summary/CategorySummary";
 import ListPanel from "../components/shared/ListPanel";
+import { useExpenses } from "../hooks/useExpenses";
 
 import "../components/category-summary/CategorySummary.css";
 
 type Props = {
-  expenses: Expense[];
-  setExpenses: React.Dispatch<React.SetStateAction<Expense[]>>;
   budgetGoals: BudgetGoal[];
   setBudgetGoals: React.Dispatch<React.SetStateAction<BudgetGoal[]>>;
 };
@@ -21,12 +20,8 @@ const ALL_CATEGORIES: ExpenseCategory[] = [
   "Health",
 ];
 
-const CategoryTotalsPage = ({
-  expenses,
-  setExpenses,
-  budgetGoals,
-  setBudgetGoals,
-}: Props) => {
+const CategoryTotalsPage = ({ budgetGoals, setBudgetGoals }: Props) => {
+  const { expenses, addExpense, removeExpense } = useExpenses();
   const [formCategory, setFormCategory] = useState<ExpenseCategory | "">("");
   const [formAmount, setFormAmount] = useState<string>("");
 
@@ -56,21 +51,17 @@ const CategoryTotalsPage = ({
   };
 
   const addTestExpense = () => {
-    setExpenses((prev) => [
-      {
-        id: Date.now(),
-        amount: 10,
-        category: "Food",
-        tag: "test",
-        date: new Date().toISOString().slice(0, 10),
-        description: "Test expense from CategoryTotalsPage",
-      },
-      ...prev,
-    ]);
+    addExpense({
+      amount: 10,
+      category: "Food",
+      tag: "test",
+      date: new Date().toISOString().slice(0, 10),
+      description: "Test expense from CategoryTotalsPage",
+    });
   };
 
   const removeOneExpense = () => {
-    setExpenses((prev) => prev.slice(1));
+    if (expenses.length > 0) removeExpense(expenses[0].id);
   };
 
   return (

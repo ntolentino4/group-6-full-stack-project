@@ -3,11 +3,11 @@ import type { Expense, ExpenseCategory } from "../../types";
 import "./AddExpenseForm.css";
 
 type Props = {
-  expenses: Expense[]; 
-  setExpenses: React.Dispatch<React.SetStateAction<Expense[]>>;
+  expenses: Expense[];
+  onAdd: (expense: Omit<Expense, "id">) => void;
 };
 
-export const AddExpenseForm = ({ expenses, setExpenses }: Props) => {
+export const AddExpenseForm = ({ expenses, onAdd }: Props) => {
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState<ExpenseCategory>("Food");
@@ -20,17 +20,13 @@ export const AddExpenseForm = ({ expenses, setExpenses }: Props) => {
       return;
     }
 
-    const newExpense: Expense = {
-      id: Date.now(),
+    onAdd({
       description,
       amount: parseFloat(amount),
       category,
       tag: "manual",
       date: new Date().toISOString().slice(0, 10),
-    };
-
-
-    setExpenses((prev) => [newExpense, ...prev]);
+    });
 
     // Reset form
     setDescription("");
