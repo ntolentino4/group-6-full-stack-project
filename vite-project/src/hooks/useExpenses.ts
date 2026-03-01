@@ -1,20 +1,36 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import type { Expense } from "../types";
-import { expenseService } from "../services/expenseService";
+import {
+  getAllExpenses,
+  addExpense as serviceAddExpense,
+  deleteExpense,
+} from "../services/expenseService";
 
 export function useExpenses() {
-  const [expenses, setExpenses] = useState<Expense[]>(() =>
-    expenseService.getAll()
-  );
+  const [expenses, setExpenses] = useState<Expense[]>([]);
 
-  const addExpense = (expense: Omit<Expense, "id">) => {
-    expenseService.add(expense);
-    setExpenses(expenseService.getAll());
+  const refreshExpenses = useCallback(async () => {
+    const data = await getAllExpenses();
+    setExpenses(data);
+  }, []);
+
+  useEffect(() => {
+    refreshExpenses();
+  }, [refreshExpenses]);
+
+  const addExpense = async (expense: Omit<Expense, "id">) => {
+    try {
+      const newExpense: Expense = { ...expense, id: Date.now() };
+      await serviceAddExpense(newExpense);
+      await refreshExpenses();
+    } catch (error) {
+      alert((error as Error).message);
+    }
   };
 
-  const removeExpense = (id: number) => {
-    expenseService.remove(id);
-    setExpenses(expenseService.getAll());
+  const removeExpense = async (id: number) => {
+    await deleteExpense(id);
+    await refreshExpenses();
   };
 
   return { expenses, addExpense, removeExpense };

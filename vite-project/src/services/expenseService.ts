@@ -1,20 +1,42 @@
+import * as ExpenseRepo from "../apis/expenseRepo";
 import type { Expense } from "../types";
-import { expenseRepository } from "../repositories/expenseRepository";
 
-export const expenseService = {
-  getAll(): Expense[] {
-    return expenseRepository.getAll();
-  },
+// Business Logic
+export async function addExpense(newExpense: Expense): Promise<Expense> {
+  if (!newExpense.description || newExpense.description.trim() === "") {
+    throw new Error("Description is required.");
+  }
 
-  add(expense: Omit<Expense, "id">): Expense {
-    return expenseRepository.add(expense);
-  },
+  if (newExpense.amount <= 0) {
+    throw new Error("Amount must be positive.");
+  }
 
-  update(id: number, data: Partial<Omit<Expense, "id">>): void {
-    expenseRepository.update(id, data);
-  },
+  return await ExpenseRepo.addExpense(newExpense);
+}
 
-  remove(id: number): void {
-    expenseRepository.remove(id);
-  },
-};
+export async function getAllExpenses(): Promise<Expense[]> {
+  return await ExpenseRepo.getAllExpenses();
+}
+
+export async function deleteExpense(id: number): Promise<void> {
+  await ExpenseRepo.deleteExpense(id);
+}
+
+export function calculateCategoryTotals(expenses: Expense[]) {
+  return expenses.reduce(
+    (acc, curr) => {
+      acc[curr.category] = (acc[curr.category] || 0) + curr.amount;
+      return acc;
+    },
+    {} as Record<string, number>,
+  );
+}
+
+export function getHighestSpendingCategory(totals: Record<string, number>) {
+  const categories = Object.keys(totals);
+  if (categories.length === 0) return null;
+
+  return categories.reduce((prev, current) =>
+    totals[current] > totals[prev] ? current : prev,
+  );
+}
