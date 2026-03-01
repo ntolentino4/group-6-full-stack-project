@@ -1,4 +1,4 @@
-import * as ExpenseRepo from "../repositories/expenseRepo";
+import * as ExpenseRepo from "../apis/expenseRepo";
 import type { Expense } from "../types";
 
 // Business Logic
