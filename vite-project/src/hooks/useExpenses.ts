@@ -6,6 +6,13 @@ import {
   deleteExpense,
 } from "../services/expenseService";
 
+/**
+ * Custom Hook: useExpenses
+ * Manages the presentation logic and state for the expense list.
+ * * @returns {Expense[]} expenses - The current list of expenses fetched from the service.
+ * @returns {Function} addExpense - Takes a new expense (without an ID), generates an ID, and saves it.
+ * @returns {Function} removeExpense - Deletes an expense by its ID and refreshes the list.
+ */
 export function useExpenses() {
   const [expenses, setExpenses] = useState<Expense[]>([]);
 
