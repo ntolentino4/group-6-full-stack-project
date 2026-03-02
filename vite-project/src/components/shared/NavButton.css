@@ -10,7 +10,9 @@
   color: var(--color-granite);
   text-decoration: none;
   border-radius: var(--radius-sm);
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
   font-size: var(--font-size-body);
 }
 
