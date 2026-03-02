@@ -16,7 +16,16 @@ const ALL_CATEGORIES: ExpenseCategory[] = [
   "Shopping",
   "Health",
 ];
-
+/**
+ * Component: CategoryTotalsPage
+ * * Architectural Implementation Justification:
+ * This component utilizes the hook-service-repository architecture to clearly separate solution concerns.
+ * It invokes the `useBudgets` custom hook to manage UI state and presentation logic (e.g., refreshing the budget list).
+ * The hook delegates data validation to `budgetService`, which contains our business logic—such as ensuring a budget limit
+ * is greater than zero and preventing duplicate categories.
+ * Finally, the service invokes `budgetRepository` to execute data access logic, fetching and modifying our mock database.
+ * This separation ensures the UI component remains clean and only handles rendering.
+ */
 const CategoryTotalsPage = () => {
   const { expenses, addExpense, removeExpense } = useExpenses();
   const { budgetGoals, addBudget, removeBudget } = useBudgets();
