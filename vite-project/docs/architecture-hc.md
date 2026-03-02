@@ -22,7 +22,7 @@
 
 ## 3. Repository: `budgetRepository`
 
-**What does this repository do?** This repository simulates a database connection by performing CRUD operations (Create, Read, Delete) on an external resource (our mock data array.
+**What does this repository do?** This repository simulates a database connection by performing CRUD operations (Create, Read, Delete) on an external resource (our mock data array).
 
 **How did you decide what logic to include, and how does it separate concerns?** I isolated all data-access logic into this file. It includes `setTimeout` simulated promises to mimic network requests. It knows nothing about React state or business validation rules; it solely focuses on fetching and updating data.
 
