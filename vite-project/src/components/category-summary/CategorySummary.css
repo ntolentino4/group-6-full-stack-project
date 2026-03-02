@@ -45,7 +45,7 @@
 .category-summary li.over-budget {
   background-color: #fadbd8;
   border-left: 5px solid #a93226;
-  color: #a93226;
+  color: #91362d;
   border-radius: var(--radius-sm);
   margin-top: 8px;
   margin-bottom: 8px;
@@ -58,6 +58,7 @@
 }
 
 .alert-text {
+  color: #9c2e25;
   font-weight: bold;
   text-transform: uppercase;
 }
