@@ -1,15 +1,12 @@
 import { useState } from "react";
-import type { ExpenseCategory, BudgetGoal } from "../types";
+import type { ExpenseCategory } from "../types";
 import { CategorySummary } from "../components/category-summary/CategorySummary";
 import ListPanel from "../components/shared/ListPanel";
+
 import { useExpenses } from "../hooks/useExpenses";
+import { useBudgets } from "../hooks/useBudgets";
 
 import "../components/category-summary/CategorySummary.css";
-
-type Props = {
-  budgetGoals: BudgetGoal[];
-  setBudgetGoals: React.Dispatch<React.SetStateAction<BudgetGoal[]>>;
-};
 
 const ALL_CATEGORIES: ExpenseCategory[] = [
   "Food",
@@ -19,35 +16,36 @@ const ALL_CATEGORIES: ExpenseCategory[] = [
   "Shopping",
   "Health",
 ];
-
-const CategoryTotalsPage = ({ budgetGoals, setBudgetGoals }: Props) => {
+/**
+ * Component: CategoryTotalsPage
+ * * Architectural Implementation Justification:
+ * This component utilizes the hook-service-repository architecture to clearly separate solution concerns.
+ * It invokes the `useBudgets` custom hook to manage UI state and presentation logic (e.g., refreshing the budget list).
+ * The hook delegates data validation to `budgetService`, which contains our business logic—such as ensuring a budget limit
+ * is greater than zero and preventing duplicate categories.
+ * Finally, the service invokes `budgetRepository` to execute data access logic, fetching and modifying our mock database.
+ * This separation ensures the UI component remains clean and only handles rendering.
+ */
+const CategoryTotalsPage = () => {
   const { expenses, addExpense, removeExpense } = useExpenses();
+  const { budgetGoals, addBudget, removeBudget } = useBudgets();
+
   const [formCategory, setFormCategory] = useState<ExpenseCategory | "">("");
   const [formAmount, setFormAmount] = useState<string>("");
 
-  const handleAddBudget = (e: React.FormEvent) => {
+  const handleAddBudget = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formCategory || !formAmount) return;
 
-    if (budgetGoals.some((b) => b.category === formCategory)) {
-      alert(`You already have a budget for ${formCategory}`);
-      return;
+    const success = await addBudget(formCategory, formAmount);
+    if (success) {
+      setFormCategory("");
+      setFormAmount("");
     }
-
-    const newBudget: BudgetGoal = {
-      id: Date.now(),
-      category: formCategory,
-      limit: parseFloat(formAmount),
-    };
-
-    setBudgetGoals((prev) => [...prev, newBudget]);
-
-    setFormCategory("");
-    setFormAmount("");
   };
 
   const handleRemoveBudget = (id: number) => {
-    setBudgetGoals((prev) => prev.filter((goal) => goal.id !== id));
+    removeBudget(id);
   };
 
   const addTestExpense = () => {
