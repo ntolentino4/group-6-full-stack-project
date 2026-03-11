@@ -20,3 +20,9 @@ export interface BudgetGoal {
   category: ExpenseCategory;
   limit: number;
 }
+
+export interface FilterPreset {
+  id: number;
+  name: string;
+  selectedCategories: ExpenseCategory[];
+}
