@@ -1,0 +1,27 @@
+/* 
+ * CSS Variables note:
+ * --radius-sm, --color-*, --font-size-* are defined in App.css
+ * (App.css loads after index.css, so its variables will take precedence)
+ */
+.nav-button {
+  display: inline-block;
+  padding: 8px 16px;
+  margin: 0 4px;
+  color: var(--color-granite);
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+  font-size: var(--font-size-body);
+}
+
+.nav-button:hover {
+  background-color: var(--color-frozen-water);
+  color: var(--color-granite);
+}
+
+.nav-button:active {
+  background-color: var(--color-lilac-ash);
+  color: white;
+}
