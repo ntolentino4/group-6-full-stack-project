@@ -7,3 +7,11 @@ datasource db {
   provider = "postgresql"
 }
 
+model Expense {
+  id          Int      @id @default(autoincrement())
+  amount      Float
+  category    String
+  tag         String
+  date        String
+  description String
+}
