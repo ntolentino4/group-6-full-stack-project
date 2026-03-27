@@ -1,28 +1,23 @@
 import type { BudgetGoal } from "../../../../shared/types";
-import { mockBudgets } from "../data/mockBudgets";
-
-let currentBudgets = [...mockBudgets];
+const API_URL = `${import.meta.env.VITE_API_URL}/budgets`;
 
 const budgetRepository = {
   getAll: async (): Promise<BudgetGoal[]> => {
-    return new Promise((resolve) => {
-      setTimeout(() => resolve([...currentBudgets]), 100);
-    });
+    const res = await fetch(API_URL);
+    return await res.json();
   },
-  add: async (budget: BudgetGoal): Promise<BudgetGoal> => {
-    return new Promise((resolve) => {
-      currentBudgets = [...currentBudgets, budget];
-      resolve(budget);
+  add: async (budget: Omit<BudgetGoal, "id">): Promise<BudgetGoal> => {
+    const res = await fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(budget),
     });
+    return await res.json();
   },
-
-  delete: async (id: number): Promise<boolean> => {
-    return new Promise((resolve) => {
-      const initialLength = currentBudgets.length;
-      currentBudgets = currentBudgets.filter((b) => b.id !== id);
-      resolve(currentBudgets.length !== initialLength);
+  remove: async (id: number): Promise<void> => {
+    await fetch(`${API_URL}/${id}`, {
+      method: "DELETE",
     });
   },
 };
-
 export default budgetRepository;

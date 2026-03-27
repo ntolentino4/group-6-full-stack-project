@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
-import type { BudgetGoal } from "../../../../shared/types";
+import type { BudgetGoal, ExpenseCategory } from "../../../../shared/types";
 import budgetService from "../services/budgetService";
+import budgetRepository from "../apis/budgetRepo";
 
 /**
  * Hook to manage budget operations and state.
@@ -21,23 +22,34 @@ export const useBudgets = () => {
     refreshBudgets();
   }, [refreshBudgets]);
 
-  const addBudget = async (category: string, limit: string | number) => {
+  const addBudget = async (category: ExpenseCategory, limitAmount: string) => {
     try {
-      const numericLimit =
-        typeof limit === "string" ? parseFloat(limit) : limit;
+      // Wrap limitAmount in Number() so it sends 199 instead of "199"
+      const newBudget = await budgetRepository.add({
+        category,
+        limit: Number(limitAmount),
+      });
 
-      await budgetService.addBudget(category, numericLimit, budgetGoals);
-      await refreshBudgets();
+      setBudgetGoals((prev) => [...prev, newBudget]);
       return true;
     } catch (error) {
-      alert((error as Error).message);
+      console.error("Failed to add budget", error);
       return false;
     }
   };
 
   const removeBudget = async (id: number) => {
-    await budgetService.deleteBudget(id);
-    await refreshBudgets();
+    try {
+      // 1. Tell the backend to delete it from PostgreSQL
+      await budgetRepository.remove(id);
+
+      // 2. Tell React to remove it from the screen immediately
+      setBudgetGoals((prevBudgets) =>
+        prevBudgets.filter((budget) => budget.id !== id),
+      );
+    } catch (error) {
+      console.error("Failed to remove budget:", error);
+    }
   };
 
   return { budgetGoals, addBudget, removeBudget };
