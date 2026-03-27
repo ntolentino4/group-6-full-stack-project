@@ -20,7 +20,7 @@ const config: runtime.GetPrismaClientConfig = {
   "clientVersion": "7.5.0",
   "engineVersion": "280c870be64f457428992c43c1f6d557fab6e29e",
   "activeProvider": "postgresql",
-  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../src/generated/prisma/client\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../src/generated/prisma/client\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel FilterPreset {\n  id                 Int      @id @default(autoincrement())\n  name               String\n  selectedCategories String[]\n  createdAt          DateTime @default(now())\n  updatedAt          DateTime @updatedAt\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
@@ -32,10 +32,10 @@ const config: runtime.GetPrismaClientConfig = {
   }
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"FilterPreset\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"selectedCategories\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 config.parameterizationSchema = {
-  strings: JSON.parse("[]"),
-  graph: "AAAA"
+  strings: JSON.parse("[\"where\",\"FilterPreset.findUnique\",\"FilterPreset.findUniqueOrThrow\",\"orderBy\",\"cursor\",\"FilterPreset.findFirst\",\"FilterPreset.findFirstOrThrow\",\"FilterPreset.findMany\",\"data\",\"FilterPreset.createOne\",\"FilterPreset.createMany\",\"FilterPreset.createManyAndReturn\",\"FilterPreset.updateOne\",\"FilterPreset.updateMany\",\"FilterPreset.updateManyAndReturn\",\"create\",\"update\",\"FilterPreset.upsertOne\",\"FilterPreset.deleteOne\",\"FilterPreset.deleteMany\",\"having\",\"_count\",\"_avg\",\"_sum\",\"_min\",\"_max\",\"FilterPreset.groupBy\",\"FilterPreset.aggregate\",\"AND\",\"OR\",\"NOT\",\"id\",\"name\",\"selectedCategories\",\"createdAt\",\"updatedAt\",\"equals\",\"in\",\"notIn\",\"lt\",\"lte\",\"gt\",\"gte\",\"not\",\"has\",\"hasEvery\",\"hasSome\",\"contains\",\"startsWith\",\"endsWith\",\"set\",\"increment\",\"decrement\",\"multiply\",\"divide\",\"push\"]"),
+  graph: "MwsQCBwAACYAMB0AAAQAEB4AACYAMB8CAAAAASABACgAISEAAB0AICJAACkAISNAACkAIQEAAAABACABAAAAAQAgCBwAACYAMB0AAAQAEB4AACYAMB8CACcAISABACgAISEAAB0AICJAACkAISNAACkAIQADAAAABAAgAwAABQAwBAAAAQAgAwAAAAQAIAMAAAUAMAQAAAEAIAMAAAAEACADAAAFADAEAAABACAFHwIAAAABIAEAAAABIQAAMwAgIkAAAAABI0AAAAABAQgAAAkAIAUfAgAAAAEgAQAAAAEhAAAzACAiQAAAAAEjQAAAAAEBCAAACwAwAQgAAAsAMAUfAgAyACEgAQAvACEhAAAwACAiQAAxACEjQAAxACECAAAAAQAgCAAADgAgBR8CADIAISABAC8AISEAADAAICJAADEAISNAADEAIQIAAAAEACAIAAAQACACAAAABAAgCAAAEAAgAwAAAAEAIA8AAAkAIBAAAA4AIAEAAAABACABAAAABAAgBRUAACoAIBYAACsAIBcAAC4AIBgAAC0AIBkAACwAIAgcAAAaADAdAAAXABAeAAAaADAfAgAbACEgAQAcACEhAAAdACAiQAAeACEjQAAeACEDAAAABAAgAwAAFgAwFAAAFwAgAwAAAAQAIAMAAAUAMAQAAAEAIAgcAAAaADAdAAAXABAeAAAaADAfAgAbACEgAQAcACEhAAAdACAiQAAeACEjQAAeACENFQAAIAAgFgAAJQAgFwAAIAAgGAAAIAAgGQAAIAAgJAIAAAABJQIAAAAEJgIAAAAEJwIAAAABKAIAAAABKQIAAAABKgIAAAABKwIAJAAhDhUAACAAIBgAACMAIBkAACMAICQBAAAAASUBAAAABCYBAAAABCcBAAAAASgBAAAAASkBAAAAASoBAAAAASsBACIAIS8BAAAAATABAAAAATEBAAAAAQQkAQAAAAUsAQAAAAEtAQAAAAQuAQAAAAQLFQAAIAAgGAAAIQAgGQAAIQAgJEAAAAABJUAAAAAEJkAAAAAEJ0AAAAABKEAAAAABKUAAAAABKkAAAAABK0AAHwAhCxUAACAAIBgAACEAIBkAACEAICRAAAAAASVAAAAABCZAAAAABCdAAAAAAShAAAAAASlAAAAAASpAAAAAAStAAB8AIQgkAgAAAAElAgAAAAQmAgAAAAQnAgAAAAEoAgAAAAEpAgAAAAEqAgAAAAErAgAgACEIJEAAAAABJUAAAAAEJkAAAAAEJ0AAAAABKEAAAAABKUAAAAABKkAAAAABK0AAIQAhDhUAACAAIBgAACMAIBkAACMAICQBAAAAASUBAAAABCYBAAAABCcBAAAAASgBAAAAASkBAAAAASoBAAAAASsBACIAIS8BAAAAATABAAAAATEBAAAAAQskAQAAAAElAQAAAAQmAQAAAAQnAQAAAAEoAQAAAAEpAQAAAAEqAQAAAAErAQAjACEvAQAAAAEwAQAAAAExAQAAAAENFQAAIAAgFgAAJQAgFwAAIAAgGAAAIAAgGQAAIAAgJAIAAAABJQIAAAAEJgIAAAAEJwIAAAABKAIAAAABKQIAAAABKgIAAAABKwIAJAAhCCQIAAAAASUIAAAABCYIAAAABCcIAAAAASgIAAAAASkIAAAAASoIAAAAASsIACUAIQgcAAAmADAdAAAEABAeAAAmADAfAgAnACEgAQAoACEhAAAdACAiQAApACEjQAApACEIJAIAAAABJQIAAAAEJgIAAAAEJwIAAAABKAIAAAABKQIAAAABKgIAAAABKwIAIAAhCyQBAAAAASUBAAAABCYBAAAABCcBAAAAASgBAAAAASkBAAAAASoBAAAAASsBACMAIS8BAAAAATABAAAAATEBAAAAAQgkQAAAAAElQAAAAAQmQAAAAAQnQAAAAAEoQAAAAAEpQAAAAAEqQAAAAAErQAAhACEAAAAAAAEyAQAAAAECMgEAAAAENwEAAAAFATJAAAAAAQUyAgAAAAEzAgAAAAE0AgAAAAE1AgAAAAE2AgAAAAEBMgEAAAAEAAAAAAUVAAYWAAcXAAgYAAkZAAoAAAAAAAUVAAYWAAcXAAgYAAkZAAoBAgECAwEFBgEGBwEHCAEJCgEKDAILDQMMDwENEQIOEgQREwESFAETFQIaGAUbGQs"
 }
 
 async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Module> {
@@ -70,8 +70,8 @@ export interface PrismaClientConstructor {
    * const prisma = new PrismaClient({
    *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
    * })
-   * // Fetch zero or more Users
-   * const users = await prisma.user.findMany()
+   * // Fetch zero or more FilterPresets
+   * const filterPresets = await prisma.filterPreset.findMany()
    * ```
    * 
    * Read more in our [docs](https://pris.ly/d/client).
@@ -94,8 +94,8 @@ export interface PrismaClientConstructor {
  * const prisma = new PrismaClient({
  *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
  * })
- * // Fetch zero or more Users
- * const users = await prisma.user.findMany()
+ * // Fetch zero or more FilterPresets
+ * const filterPresets = await prisma.filterPreset.findMany()
  * ```
  * 
  * Read more in our [docs](https://pris.ly/d/client).
@@ -188,7 +188,15 @@ export interface PrismaClient<
     extArgs: ExtArgs
   }>>
 
-    
+      /**
+   * `prisma.filterPreset`: Exposes CRUD operations for the **FilterPreset** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more FilterPresets
+    * const filterPresets = await prisma.filterPreset.findMany()
+    * ```
+    */
+  get filterPreset(): Prisma.FilterPresetDelegate<ExtArgs, { omit: OmitOpts }>;
 }
 
 export function getPrismaClientClass(): PrismaClientConstructor {
