@@ -1,3 +1,4 @@
+import { PrismaClient } from "../src/generated/prisma/client/client";
 import { PrismaClient } from "@prisma/client";
 import { Pool } from "pg";
 import { PrismaPg } from "@prisma/adapter-pg";

@@ -1,6 +1,7 @@
 import express, { Express } from "express";
 import cors from "cors";
 import corsOptions from "../config/cors";
+import filterPresetRoutes from "./routes/filterPresetRoutes";
 import budgetRoutes from "./routes/budgetRoutes";
 import expenseRoutes from "./routes/expenseRoutes";
 
@@ -14,5 +15,7 @@ app.use("/api/expenses", expenseRoutes);
 app.get("/", (_req, res) => {
   res.send("Expense Tracker API is running!");
 });
+
+app.use("/api/filter-presets", filterPresetRoutes);
 
 export default app;

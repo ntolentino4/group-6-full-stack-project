@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { FilterPreset } from "../../../../shared/types";
 import {
   getAllPresets,
@@ -7,18 +7,25 @@ import {
 } from "../services/filterPresetService";
 
 export function useFilterPresets() {
-  const [presets, setPresets] = useState<FilterPreset[]>(() =>
-    getAllPresets()
-  );
+  const [presets, setPresets] = useState<FilterPreset[]>([]);
 
-  const addPreset = (preset: Omit<FilterPreset, "id">) => {
-    serviceAddPreset(preset);
-    setPresets(getAllPresets());
+  const refreshPresets = async () => {
+    const next = await getAllPresets();
+    setPresets(next);
   };
 
-  const removePreset = (id: number) => {
-    deletePreset(id);
-    setPresets(getAllPresets());
+  useEffect(() => {
+    void refreshPresets();
+  }, []);
+
+  const addPreset = async (preset: Omit<FilterPreset, "id">) => {
+    await serviceAddPreset(preset);
+    await refreshPresets();
+  };
+
+  const removePreset = async (id: number) => {
+    await deletePreset(id);
+    await refreshPresets();
   };
 
   return { presets, addPreset, removePreset };
