@@ -1,8 +1,22 @@
-import Joi from 'joi';
+import Joi from "joi";
 
 const categories = [
-  "Food", "Transport", "Housing", "Entertainment", "Shopping", "Health"
+  "Food",
+  "Transport",
+  "Housing",
+  "Entertainment",
+  "Shopping",
+  "Health",
 ];
+
+export const budgetGoalSchema = Joi.object({
+  category: Joi.string()
+    .valid(...categories)
+    .required(),
+  limit: Joi.number().positive().required().messages({
+    "number.positive": "Budget limit must be greater than 0",
+  }),
+});
 
 export const expenseSchema = Joi.object({
   amount: Joi.number().positive().required().messages({
