@@ -1,44 +1,44 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import type { Expense } from "../../../../shared/types";
-import {
-  getAllExpenses,
-  addExpense as serviceAddExpense,
-  deleteExpense,
-} from "../services/expenseService";
+import * as expenseRepo from "../apis/expenseRepo";
 
-/**
- * Custom Hook: useExpenses
- * Manages the presentation logic and state for the expense list.
- * * @returns {Expense[]} expenses - The current list of expenses fetched from the service.
- * @returns {Function} addExpense - Takes a new expense (without an ID), generates an ID, and saves it.
- * @returns {Function} removeExpense - Deletes an expense by its ID and refreshes the list.
- */
-export function useExpenses() {
+export const useExpenses = () => {
   const [expenses, setExpenses] = useState<Expense[]>([]);
 
-  const refreshExpenses = useCallback(async () => {
-    const data = await getAllExpenses();
-    setExpenses(data);
+  useEffect(() => {
+    const loadInitialData = async () => {
+      try {
+        const data = await expenseRepo.getAllExpenses();
+        setExpenses(data);
+      } catch {
+        // No variable named 'error' means nothing to be 'unused'
+        console.error("Failed to fetch expenses from server.");
+      }
+    };
+    loadInitialData();
   }, []);
 
-  useEffect(() => {
-    refreshExpenses();
-  }, [refreshExpenses]);
-
-  const addExpense = async (expense: Omit<Expense, "id">) => {
+  const addExpense = async (newExpenseData: Omit<Expense, "id">) => {
     try {
-      const newExpense: Expense = { ...expense, id: Date.now() };
-      await serviceAddExpense(newExpense);
-      await refreshExpenses();
-    } catch (error) {
-      alert((error as Error).message);
+      const savedExpense = await expenseRepo.addExpense(newExpenseData);
+      setExpenses((prev) => [savedExpense, ...prev]);
+    } catch {
+      alert("Error saving expense to database");
     }
   };
 
   const removeExpense = async (id: number) => {
-    await deleteExpense(id);
-    await refreshExpenses();
+    try {
+      await expenseRepo.deleteExpense(id);
+      setExpenses((prev) => prev.filter((e) => e.id !== id));
+    } catch {
+      alert("Error deleting expense");
+    }
   };
 
-  return { expenses, addExpense, removeExpense };
-}
+  return {
+    expenses,
+    addExpense,
+    removeExpense,
+  };
+};
