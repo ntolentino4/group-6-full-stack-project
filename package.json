@@ -1,0 +1,15 @@
+{
+  "name": "group-6-full-stack-project",
+  "workspaces": [
+    "apps/*"
+  ],
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "concurrently \"npm:start:frontend\" \"npm:start:backend\"",
+    "start:frontend": "npm run dev --workspace=@expense-tracker/frontend",
+    "start:backend": "npm start --workspace=@expense-tracker/backend"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}

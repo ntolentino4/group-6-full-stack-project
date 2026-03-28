@@ -1,0 +1,40 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// 1. The Core 3NF Table 
+model Category {
+  id            Int            @id @default(autoincrement())
+  name          String         @unique
+  
+  budgetGoal    BudgetGoal?
+}
+
+// 3. For Category Summary
+model BudgetGoal {
+  id          Int      @id @default(autoincrement())
+  limit       Float
+
+  categoryId  Int      @unique
+  category    Category @relation(fields: [categoryId], references: [id])
+}
+model Expense {
+  id          Int      @id @default(autoincrement())
+  amount      Float
+  category    String
+  tag         String
+  date        String
+  description String
+}
+
+model FilterPreset {
+  id                 Int      @id @default(autoincrement())
+  name               String
+  selectedCategories String[]
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
