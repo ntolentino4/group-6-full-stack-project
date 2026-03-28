@@ -1,9 +1,9 @@
 {
-  "version": 2,
+  "relatedProjects": ["prj_EVEt8UXqoJUEXUdnvJDgsA52RZ4T"],
   "rewrites": [
     {
-      "source": "/api/(.*)",
-      "destination": "api/index.ts"
+      "source": "/(.*)",
+      "destination": "/api"
     }
   ]
 }
