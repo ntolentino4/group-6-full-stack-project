@@ -1,5 +1,5 @@
 import type { BudgetGoal } from "../../../../shared/types";
-const API_URL = `${import.meta.env.VITE_API_URL}/budgets`;
+const API_URL = `${import.meta.env.VITE_API_URL}/api/budgets`;
 
 const budgetRepository = {
   getAll: async (): Promise<BudgetGoal[]> => {
