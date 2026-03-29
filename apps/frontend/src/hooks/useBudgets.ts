@@ -1,14 +1,9 @@
 import { useState, useEffect, useCallback } from "react";
 import type { BudgetGoal, ExpenseCategory } from "../../../../shared/types";
 import budgetService from "../services/budgetService";
-import budgetRepository from "../apis/budgetRepo";
 
 /**
  * Hook to manage budget operations and state.
- * @returns {Object}
- * @property {BudgetGoal[]} budgetGoals - The current list of budget goals.
- * @property {Function} addBudget - Validates and sends a new budget to the service.
- * @property {Function} removeBudget - Deletes a budget by its ID.
  */
 export const useBudgets = () => {
   const [budgetGoals, setBudgetGoals] = useState<BudgetGoal[]>([]);
@@ -24,13 +19,14 @@ export const useBudgets = () => {
 
   const addBudget = async (category: ExpenseCategory, limitAmount: string) => {
     try {
-      // Wrap limitAmount in Number() so it sends 199 instead of "199"
-      const newBudget = await budgetRepository.add({
+      // Use the Service instead of Repo directly to trigger validation logic
+      await budgetService.addBudget(
         category,
-        limit: Number(limitAmount),
-      });
+        Number(limitAmount),
+        budgetGoals
+      );
 
-      setBudgetGoals((prev) => [...prev, newBudget]);
+      await refreshBudgets(); // Refresh list from DB
       return true;
     } catch (error) {
       console.error("Failed to add budget", error);
@@ -40,10 +36,10 @@ export const useBudgets = () => {
 
   const removeBudget = async (id: number) => {
     try {
-      // 1. Tell the backend to delete it from PostgreSQL
-      await budgetRepository.remove(id);
+      // Use the Service deleteBudget which is now linked to repo.remove
+      await budgetService.deleteBudget(id);
 
-      // 2. Tell React to remove it from the screen immediately
+      // Optimistic UI update
       setBudgetGoals((prevBudgets) =>
         prevBudgets.filter((budget) => budget.id !== id),
       );
