@@ -6,12 +6,25 @@ datasource db {
   provider = "postgresql"
 }
 
-// 1. The Core 3NF Table 
-model Category {
+// 1. New User Model for Clerk Integration
+model User {
   id            Int            @id @default(autoincrement())
-  name          String         @unique
+  clerkUserId   String         @unique
+  email         String?        
+
+  // Relationships tying the user to their personal data
+  expenses      Expense[]
+  budgetGoals   BudgetGoal[]
+  filterPresets FilterPreset[]
+}
+
+// 2. The Core 3NF Table 
+model Category {
+  id          Int          @id @default(autoincrement())
+  name        String       @unique
   
-  budgetGoal    BudgetGoal?
+  // A category can have many budget goals (one for each user)
+  budgetGoals BudgetGoal[] 
 }
 
 // 3. For Category Summary
@@ -19,22 +32,37 @@ model BudgetGoal {
   id          Int      @id @default(autoincrement())
   limit       Float
 
-  categoryId  Int      @unique
+  categoryId  Int
   category    Category @relation(fields: [categoryId], references: [id])
+
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Ensures one user can't create two budget goals for the same category
+  @@unique([categoryId, userId])
 }
+
+// 4. Expenses
 model Expense {
   id          Int      @id @default(autoincrement())
   amount      Float
-  category    String
+  category    String   
   tag         String
   date        String
   description String
+
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+// 5. Presets
 model FilterPreset {
   id                 Int      @id @default(autoincrement())
   name               String
   selectedCategories String[]
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
+
+  userId             Int
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
