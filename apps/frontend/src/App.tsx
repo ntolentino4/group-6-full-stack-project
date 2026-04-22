@@ -17,7 +17,7 @@ function App() {
         <Route path="/recent-expenses" element={<RecentExpensesPage />} />
         
         <Route path="/category-totals" element={<CategoryTotalsPage />} />
-      </Route>
+      </Route> 
     </Routes>
   );
 }
