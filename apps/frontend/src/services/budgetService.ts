@@ -2,7 +2,7 @@ import budgetRepository from "../apis/budgetRepo";
 import type { BudgetGoal, ExpenseCategory } from "../../../../shared/types";
 
 /**
- * Service layer to handle business logic (like validation) 
+ * Service layer to handle business logic (like validation)
  * before calling the data repository.
  */
 const budgetService = {

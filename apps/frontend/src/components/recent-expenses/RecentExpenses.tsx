@@ -16,18 +16,20 @@ export const RecentExpenses = ({ expenses, onRemove }: Props) => {
     <ListPanel title="Recent Transactions">
       <div className="expense-list">
         {recentItems.length === 0 ? (
-           <p>No recent expenses found.</p>
+          <p>No recent expenses found.</p>
         ) : (
           recentItems.map((item) => (
             <article key={item.id} className="expense-item">
               <div className="expense-info">
                 <h3>{item.description}</h3>
-                <small>{item.date} • {item.category}</small>
+                <small>
+                  {item.date} • {item.category}
+                </small>
               </div>
-              
+
               <div className="expense-actions">
                 <span className="price">${item.amount.toFixed(2)}</span>
-                <button 
+                <button
                   onClick={() => onRemove(item.id)}
                   aria-label="Remove expense"
                 >
