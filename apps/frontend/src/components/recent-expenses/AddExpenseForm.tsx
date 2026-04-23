@@ -1,18 +1,15 @@
 import { useState } from "react";
-import type { Expense, ExpenseCategory } from "../../../../../shared/types";
+import { useAuth } from "@clerk/clerk-react";
+import type { ExpenseCategory } from "../../../../../shared/types";
 import "./AddExpenseForm.css";
 
-type Props = {
-  expenses: Expense[];
-  onAdd: (expense: Omit<Expense, "id">) => void;
-};
-
-export const AddExpenseForm = ({ expenses, onAdd }: Props) => {
+export const AddExpenseForm = () => {
+  const { getToken, isSignedIn } = useAuth();
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState<ExpenseCategory>("Food");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!description.trim() || !amount) {
@@ -20,27 +17,45 @@ export const AddExpenseForm = ({ expenses, onAdd }: Props) => {
       return;
     }
 
-    onAdd({
-      description,
-      amount: parseFloat(amount),
-      category,
-      tag: "manual",
-      date: new Date().toISOString().slice(0, 10),
-    });
+    if (!isSignedIn) {
+        alert("Please sign in to add expenses");
+        return;
+    }
 
-    // Reset form
-    setDescription("");
-    setAmount("");
-    setCategory("Food");
+    try {
+      const token = await getToken();
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/expenses`, {
+        method: "POST",
+        headers: { 
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}` 
+        },
+        body: JSON.stringify({
+          description,
+          amount: parseFloat(amount),
+          category,
+          tag: "manual",
+          date: new Date().toISOString().slice(0, 10),
+        }),
+      });
+
+      if (response.ok) {
+        // Optional: Refresh the page or use a shared state to update the list
+        window.location.reload(); 
+        setDescription("");
+        setAmount("");
+        setCategory("Food");
+      }
+    } catch (err) {
+      console.error("Failed to add expense", err);
+    }
   };
+
+  if (!isSignedIn) return null;
 
   return (
     <form onSubmit={handleSubmit} className="expense-form">
       <h3>Add New Expense</h3>
-      <p style={{fontSize: "0.8rem", marginBottom: "1rem", fontWeight: "bold"}}>
-        Current Item Count: {expenses.length}
-      </p>
-
       <div className="form-group">
         <label htmlFor="desc">Description:</label>
         <input
@@ -51,7 +66,6 @@ export const AddExpenseForm = ({ expenses, onAdd }: Props) => {
           placeholder="e.g., Coffee"
         />
       </div>
-
       <div className="form-group">
         <label htmlFor="amt">Amount ($):</label>
         <input
@@ -63,7 +77,6 @@ export const AddExpenseForm = ({ expenses, onAdd }: Props) => {
           placeholder="0.00"
         />
       </div>
-
       <div className="form-group">
         <label htmlFor="cat">Category:</label>
         <select
@@ -79,7 +92,6 @@ export const AddExpenseForm = ({ expenses, onAdd }: Props) => {
           <option value="Health">Health</option>
         </select>
       </div>
-
       <button type="submit">Add Expense</button>
     </form>
   );
