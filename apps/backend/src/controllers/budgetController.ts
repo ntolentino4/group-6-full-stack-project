@@ -1,27 +1,55 @@
 import { Request, Response } from "express";
-import * as budgetService from "../services/budgetService";
+import {
+  getUserBudgetSummary,
+  createNewBudgetGoal,
+} from "../services/budgetService";
 
 export const getBudgets = async (req: Request, res: Response) => {
-  const budgets = await budgetService.getBudgets();
-  res.json(
-    budgets.map((b: any) => ({
-      id: b.id,
-      limit: b.limit,
-      category: b.category.name,
-    })),
-  );
+  // Extract the ID attached by the global clerkMiddleware()
+  const clerkUserId = (req as Request & { auth?: { userId: string } }).auth
+    ?.userId;
+
+  // Security Check: If there is no token, block the request
+  if (!clerkUserId) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
+  try {
+    const summary = await getUserBudgetSummary(clerkUserId);
+    res.status(200).json(summary);
+  } catch (error) {
+    console.error("Error generating budget summary:", error);
+    res.status(500).json({ error: "Failed to load budget summary." });
+  }
 };
 
 export const createBudget = async (req: Request, res: Response) => {
-  const b = await budgetService.createBudget(req.body);
-  res.status(201).json({ id: b.id, limit: b.limit, category: b.category.name });
-};
+  // Extract the ID attached by the global clerkMiddleware()
+  const clerkUserId = (req as Request & { auth?: { userId: string } }).auth
+    ?.userId;
 
-export const deleteBudget = async (req: Request, res: Response) => {
+  // Security Check: If there is no token, block the request
+  if (!clerkUserId) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
   try {
-    await budgetService.deleteBudget(parseInt(req.params.id as string));
-    res.status(204).send(); // 204 means "Success, but no content to return"
+    // Extract the body parameters sent from your React front-end
+    const { amount, categoryId } = req.body;
+
+    // Call the service to save the new budget to Postgres
+    const newBudget = await createNewBudgetGoal(
+      clerkUserId,
+      amount,
+      categoryId,
+    );
+
+    res.status(201).json({
+      message: "Budget created successfully",
+      budget: newBudget,
+    });
   } catch (error) {
-    res.status(500).json({ message: "Failed to delete budget" });
+    console.error("Error creating budget:", error);
+    res.status(500).json({ error: "Failed to create budget." });
   }
 };
