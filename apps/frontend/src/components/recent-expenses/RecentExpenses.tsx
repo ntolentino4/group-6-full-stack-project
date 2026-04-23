@@ -61,7 +61,9 @@ export const RecentExpenses = () => {
             <article key={item.id} className="expense-item">
               <div className="expense-info">
                 <h3>{item.description}</h3>
-                <small>{item.date} • {item.category}</small>
+                <small>
+                  {item.date} • {item.category}
+                </small>
               </div>
               <div className="expense-actions">
                 <span className="price">${item.amount.toFixed(2)}</span>
