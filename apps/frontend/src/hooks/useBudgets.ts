@@ -1,52 +1,34 @@
-import { useState, useEffect, useCallback } from "react";
-import type { BudgetGoal, ExpenseCategory } from "../../../../shared/types";
-import budgetService from "../services/budgetService";
+import { useState, useEffect } from "react";
+import { useAuth } from "@clerk/clerk-react";
+import * as budgetService from "../services/budgetService";
+import type { BudgetGoal } from "../../../../shared/types";
 
-/**
- * Hook to manage budget operations and state.
- */
 export const useBudgets = () => {
-  const [budgetGoals, setBudgetGoals] = useState<BudgetGoal[]>([]);
+  const { getToken } = useAuth();
+  const [budgets, setBudgets] = useState<BudgetGoal[]>([]);
 
-  const refreshBudgets = useCallback(async () => {
-    const data = await budgetService.getBudgets();
-    setBudgetGoals(data);
-  }, []);
+  const fetchBudgets = async () => {
+    const token = await getToken();
+    if (token) setBudgets(await budgetService.getBudgets(token));
+  };
 
-  useEffect(() => {
-    refreshBudgets();
-  }, [refreshBudgets]);
-
-  const addBudget = async (category: ExpenseCategory, limitAmount: string) => {
-    try {
-      // Use the Service instead of Repo directly to trigger validation logic
-      await budgetService.addBudget(
-        category,
-        Number(limitAmount),
-        budgetGoals
-      );
-
-      await refreshBudgets(); // Refresh list from DB
-      return true;
-    } catch (error) {
-      console.error("Failed to add budget", error);
-      return false;
-    }
+  const addBudget = async (data: Omit<BudgetGoal, "id">) => {
+    const token = await getToken();
+    if (!token) throw new Error("Unauthorized");
+    const newBudget = await budgetService.createBudget(data, token);
+    setBudgets((prev) => [...prev, newBudget]);
   };
 
   const removeBudget = async (id: number) => {
-    try {
-      // Use the Service deleteBudget which is now linked to repo.remove
-      await budgetService.deleteBudget(id);
-
-      // Optimistic UI update
-      setBudgetGoals((prevBudgets) =>
-        prevBudgets.filter((budget) => budget.id !== id),
-      );
-    } catch (error) {
-      console.error("Failed to remove budget:", error);
+    const token = await getToken();
+    if (token) {
+      await budgetService.deleteBudget(id, token);
+      setBudgets((prev) => prev.filter((b) => b.id !== id));
     }
   };
 
-  return { budgetGoals, addBudget, removeBudget };
+  useEffect(() => {
+    fetchBudgets();
+  }, []);
+  return { budgets, addBudget, removeBudget, fetchBudgets };
 };

@@ -1,23 +1,24 @@
 import type { BudgetGoal } from "../../../../shared/types";
-const API_URL = `${import.meta.env.VITE_API_URL}/api/budgets`;
+import { fetchWithAuth } from "./apiClient";
 
-const budgetRepository = {
-  getAll: async (): Promise<BudgetGoal[]> => {
-    const res = await fetch(API_URL);
-    return await res.json();
-  },
-  add: async (budget: Omit<BudgetGoal, "id">): Promise<BudgetGoal> => {
-    const res = await fetch(API_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(budget),
-    });
-    return await res.json();
-  },
-  remove: async (id: number): Promise<void> => {
-    await fetch(`${API_URL}/${id}`, {
-      method: "DELETE",
-    });
-  },
+export const getAll = async (token: string): Promise<BudgetGoal[]> => {
+  return await fetchWithAuth("/budgets", { method: "GET" }, token);
 };
-export default budgetRepository;
+
+export const create = async (
+  data: Omit<BudgetGoal, "id">,
+  token: string,
+): Promise<BudgetGoal> => {
+  return await fetchWithAuth(
+    "/budgets",
+    {
+      method: "POST",
+      body: JSON.stringify(data),
+    },
+    token,
+  );
+};
+
+export const remove = async (id: number, token: string): Promise<void> => {
+  return await fetchWithAuth(`/budgets/${id}`, { method: "DELETE" }, token);
+};

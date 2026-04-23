@@ -1,55 +1,65 @@
 import { Request, Response } from "express";
-import {
-  getUserBudgetSummary,
-  createNewBudgetGoal,
-} from "../services/budgetService";
+import * as budgetService from "../services/budgetService";
+import prisma from "../../prisma/client";
 
-export const getBudgets = async (req: Request, res: Response) => {
-  // Extract the ID attached by the global clerkMiddleware()
-  const clerkUserId = (req as Request & { auth?: { userId: string } }).auth
-    ?.userId;
+// 1. Extend the Request type so TypeScript knows about Clerk's auth object
+interface AuthRequest extends Request {
+  auth?: { userId: string };
+}
 
-  // Security Check: If there is no token, block the request
-  if (!clerkUserId) {
-    return res.status(401).json({ error: "Unauthorized" });
-  }
-
+export const getBudgets = async (req: AuthRequest, res: Response) => {
   try {
-    const summary = await getUserBudgetSummary(clerkUserId);
-    res.status(200).json(summary);
+    const user = await prisma.user.findUnique({
+      where: { clerkUserId: req.auth?.userId },
+    });
+    if (!user) return res.status(404).json({ error: "User not synced" });
+
+    const budgets = await budgetService.getBudgets(user.id);
+    res.json(
+      budgets.map((b: any) => ({
+        id: b.id,
+        limit: b.limit,
+        category: b.category.name,
+      })),
+    );
   } catch (error) {
-    console.error("Error generating budget summary:", error);
-    res.status(500).json({ error: "Failed to load budget summary." });
+    res.status(500).json({ error: "Failed to fetch" });
   }
 };
 
-export const createBudget = async (req: Request, res: Response) => {
-  // Extract the ID attached by the global clerkMiddleware()
-  const clerkUserId = (req as Request & { auth?: { userId: string } }).auth
-    ?.userId;
-
-  // Security Check: If there is no token, block the request
-  if (!clerkUserId) {
-    return res.status(401).json({ error: "Unauthorized" });
-  }
-
+export const createBudget = async (req: AuthRequest, res: Response) => {
   try {
-    // Extract the body parameters sent from your React front-end
-    const { amount, categoryId } = req.body;
-
-    // Call the service to save the new budget to Postgres
-    const newBudget = await createNewBudgetGoal(
-      clerkUserId,
-      amount,
-      categoryId,
-    );
-
-    res.status(201).json({
-      message: "Budget created successfully",
-      budget: newBudget,
+    const user = await prisma.user.findUnique({
+      where: { clerkUserId: req.auth?.userId },
     });
+    if (!user) return res.status(404).json({ error: "User not synced" });
+
+    const b = await budgetService.createBudget({
+      ...req.body,
+      userId: user.id,
+    });
+    res
+      .status(201)
+      .json({ id: b.id, limit: b.limit, category: b.category.name });
   } catch (error) {
-    console.error("Error creating budget:", error);
-    res.status(500).json({ error: "Failed to create budget." });
+    res.status(500).json({ error: "Failed to create" });
+  }
+};
+
+export const deleteBudget = async (req: AuthRequest, res: Response) => {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { clerkUserId: req.auth?.userId },
+    });
+    if (!user) return res.status(404).json({ error: "User not synced" });
+
+    // 2. Cast req.params.id to a string before parsing
+    await budgetService.deleteBudget(
+      parseInt(req.params.id as string),
+      user.id,
+    );
+    res.status(204).send();
+  } catch (error) {
+    res.status(500).json({ error: "Failed to delete" });
   }
 };
