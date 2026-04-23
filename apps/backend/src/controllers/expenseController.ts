@@ -1,37 +1,28 @@
 import { Request, Response } from "express";
 import * as expenseService from "../services/expenseService";
+import prisma from "../../prisma/client";
 
-// Use 'any' for req to allow access to req.auth from Clerk
-export const getAllExpenses = async (req: any, res: Response) => {
+export const getAllExpenses = async (req: Request, res: Response) => {
   try {
-    // Extract the Clerk User ID from the session token 
-    const clerkId = req.auth.userId; 
-    const expenses = await expenseService.getAllExpenses(clerkId);
-    res.status(200).json(expenses);
-  } catch (error) {
-    res.status(500).json({ error: "Failed to fetch expenses" });
-  }
+    const user = await prisma.user.findUnique({ where: { clerkUserId: req.auth?.userId } });
+    if (!user) return res.status(404).json({ error: "User not synced" });
+    res.status(200).json(await expenseService.getAllExpenses(user.id));
+  } catch (error) { res.status(500).json({ error: "Failed to fetch" }); }
 };
 
-export const createExpense = async (req: any, res: Response) => {
+export const createExpense = async (req: Request, res: Response) => {
   try {
-    const clerkId = req.auth.userId;
-    // Pass both the body and the clerkId to create the association
-    const newExpense = await expenseService.createExpense(req.body, clerkId);
-    res.status(201).json(newExpense);
-  } catch (error) {
-    res.status(500).json({ error: "Failed to create expense" });
-  }
+    const user = await prisma.user.findUnique({ where: { clerkUserId: req.auth?.userId } });
+    if (!user) return res.status(404).json({ error: "User not synced" });
+    res.status(201).json(await expenseService.createExpense({ ...req.body, userId: user.id }));
+  } catch (error) { res.status(500).json({ error: "Failed to create" }); }
 };
 
-export const deleteExpense = async (req: any, res: Response) => {
+export const deleteExpense = async (req: Request, res: Response) => {
   try {
-    const clerkId = req.auth.userId;
-    const id = parseInt(req.params.id as string);
-    // Ensure the user can only delete their own data
-    await expenseService.deleteExpense(id, clerkId);
+    const user = await prisma.user.findUnique({ where: { clerkUserId: req.auth?.userId } });
+    if (!user) return res.status(404).json({ error: "User not synced" });
+    await expenseService.deleteExpense(parseInt(req.params.id), user.id);
     res.status(204).send();
-  } catch (error) {
-    res.status(500).json({ error: "Failed to delete expense" });
-  }
+  } catch (error) { res.status(500).json({ error: "Failed to delete" }); }
 };

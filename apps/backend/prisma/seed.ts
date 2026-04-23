@@ -1,7 +1,17 @@
 import process from "process";
 import { PrismaClient } from "@prisma/client";
+import * as dotenv from "dotenv";
 
-const prisma = new PrismaClient();
+// Load environment variables from .env (for local) or process (for Vercel)
+dotenv.config();
+
+const prisma = new PrismaClient({
+  datasources: {
+    db: {
+      url: process.env.DATABASE_URL,
+    },
+  },
+});
 
 async function main() {
   const categories = [
@@ -16,6 +26,7 @@ async function main() {
   console.log("Seeding categories...");
 
   for (const name of categories) {
+    // upsert prevents duplicates if the script runs twice
     await prisma.category.upsert({
       where: { name },
       update: {},
@@ -28,7 +39,7 @@ async function main() {
 
 main()
   .catch((e) => {
-    console.error(e);
+    console.error("Error during seeding:", e);
     process.exit(1);
   })
   .finally(async () => {

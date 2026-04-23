@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export default defineConfig({
-  datasource: {
+  datasources: {
     url: process.env.DATABASE_URL,
   },
   // ADD THIS SECTION:
