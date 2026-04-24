@@ -10,14 +10,18 @@ export const fetchWithAuth = async (
     ...options,
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${token}`, // The crucial security token
       ...options.headers,
     },
   });
+
   if (!response.ok) {
     const err = await response.json().catch(() => ({}));
     throw new Error(err.error || `Error ${response.status}`);
   }
+
+  // 204 No Content (usually from DELETE requests) doesn't return JSON
   if (response.status === 204) return null;
+
   return await response.json();
 };

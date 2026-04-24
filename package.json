@@ -11,5 +11,9 @@
   },
   "devDependencies": {
     "concurrently": "^9.2.1"
+  },
+  "dependencies": {
+    "body-parser": "^2.2.2",
+    "svix": "^1.92.2"
   }
 }
