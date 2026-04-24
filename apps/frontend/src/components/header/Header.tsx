@@ -1,6 +1,11 @@
 import { NavLink } from "react-router-dom";
-// Import Clerk components 
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react"; 
+// Import Clerk components
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  UserButton,
+} from "@clerk/clerk-react";
 import "./Header.css";
 
 function Header() {
@@ -33,7 +38,7 @@ function Header() {
               <button className="login-btn">Login</button>
             </SignInButton>
           </SignedOut>
-          
+
           <SignedIn>
             {/* Renders an obvious profile/logout button for users*/}
             <UserButton afterSignOutUrl="/" />
