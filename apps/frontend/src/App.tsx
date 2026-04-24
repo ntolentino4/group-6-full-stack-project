@@ -14,7 +14,7 @@ function App() {
         <Route index element={<HomePage />} />
         <Route path="/expense-filter" element={<ExpenseFilterPage />} />
         <Route path="/recent-expenses" element={<RecentExpensesPage />} />
-        <Route path="/category-summary" element={<CategoryTotalsPage />} />
+        <Route path="/category-totals" element={<CategoryTotalsPage />} />
       </Route>
     </Routes>
   );
