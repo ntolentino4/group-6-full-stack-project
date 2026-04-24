@@ -1,35 +1,60 @@
 import { Request, Response } from "express";
-import {
-  createFilterPreset,
-  deleteFilterPresetById,
-  getAllFilterPresets,
-} from "../services/filterPresetService";
+import * as presetService from "../services/filterPresetService";
+import prisma from "../../prisma/client";
 
-export async function getFilterPresets(_req: Request, res: Response) {
-  const presets = await getAllFilterPresets();
-  return res.json(presets);
+// Extends standard Request to recognize Clerk's auth object
+interface AuthRequest extends Request {
+  auth?: { userId: string };
 }
 
-export async function postFilterPreset(req: Request, res: Response) {
-  const { name, selectedCategories } = req.body as {
-    name: string;
-    selectedCategories: string[];
-  };
+export const getFilterPresets = async (req: AuthRequest, res: Response) => {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { clerkUserId: req.auth?.userId },
+    });
+    if (!user) return res.status(404).json({ error: "User not synced" });
 
-  const created = await createFilterPreset({
-    name,
-    selectedCategories,
-  });
-
-  return res.status(201).json(created);
-}
-
-export async function deleteFilterPreset(req: Request, res: Response) {
-  const id = Number(req.params.id);
-  if (Number.isNaN(id)) {
-    return res.status(400).json({ message: "Invalid id" });
+    // Passing user.id fixes Error TS2554 (Expected 1 arguments, but got 0)
+    res.status(200).json(await presetService.getAllFilterPresets(user.id));
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch presets" });
   }
+};
 
-  await deleteFilterPresetById(id);
-  return res.status(204).send();
-}
+export const postFilterPreset = async (req: AuthRequest, res: Response) => {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { clerkUserId: req.auth?.userId },
+    });
+    if (!user) return res.status(404).json({ error: "User not synced" });
+
+    res
+      .status(201)
+      .json(
+        await presetService.createFilterPreset({
+          ...req.body,
+          userId: user.id,
+        }),
+      );
+  } catch (error) {
+    res.status(500).json({ error: "Failed to create preset" });
+  }
+};
+
+export const deleteFilterPreset = async (req: AuthRequest, res: Response) => {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { clerkUserId: req.auth?.userId },
+    });
+    if (!user) return res.status(404).json({ error: "User not synced" });
+
+    // Passing user.id fixes Error TS2554 (Expected 2 arguments, but got 1)
+    await presetService.deleteFilterPresetById(
+      parseInt(req.params.id as string),
+      user.id,
+    );
+    res.status(204).send();
+  } catch (error) {
+    res.status(500).json({ error: "Failed to delete preset" });
+  }
+};

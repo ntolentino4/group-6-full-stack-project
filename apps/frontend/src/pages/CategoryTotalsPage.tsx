@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { ExpenseCategory } from "../../../../shared/types";
-import { CategorySummary } from "../components/category-summary/CategorySummary";
+import CategorySummary from "../components/category-summary/CategorySummary";
 import ListPanel from "../components/shared/ListPanel";
 
 import { useExpenses } from "../hooks/useExpenses";
