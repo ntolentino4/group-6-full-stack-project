@@ -21,7 +21,7 @@ export default function CategorySummary() {
       try {
         const token = await getToken();
         const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/api/my-budgets`,
+          `${import.meta.env.VITE_API_URL}/my-budgets`,
           {
             headers: { Authorization: `Bearer ${token}` },
           },

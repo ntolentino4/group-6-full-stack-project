@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useAuth } from "@clerk/clerk-react";
 import type { ExpenseCategory } from "../../../../shared/types";
 import ExpenseFilter from "../components/expense-filter/ExpenseFilter";
 import { useExpenses } from "../hooks/useExpenses";
@@ -10,24 +11,53 @@ import { useFilterPresets } from "../hooks/useFilterPresets";
  * through that architecture
  */
 const ExpenseFilterPage = () => {
-  const { expenses, addExpense, removeExpense } = useExpenses();
-  const { presets, addPreset } = useFilterPresets();
-  const [selectedCategories, setSelectedCategories] = useState<ExpenseCategory[]>(["Shopping"]);
+  const { isLoaded, isSignedIn } = useAuth();
+  const {
+    expenses,
+    addExpense,
+    removeExpense,
+    loading: expensesLoading,
+    error: expensesError,
+  } = useExpenses();
+  const {
+    presets,
+    addPreset,
+    removePreset,
+    loading: presetsLoading,
+    error: presetsError,
+  } = useFilterPresets();
+  const [selectedCategories, setSelectedCategories] = useState<
+    ExpenseCategory[]
+  >(["Shopping"]);
   const [presetName, setPresetName] = useState("");
+  const [presetSelectValue, setPresetSelectValue] = useState("");
 
   const handlePresetSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const id = e.target.value;
+    setPresetSelectValue(id);
     if (id) {
       const preset = presets.find((p) => p.id === Number(id));
-      if (preset) setSelectedCategories(preset.selectedCategories);
+      if (preset) {
+        setSelectedCategories(
+          preset.selectedCategories as ExpenseCategory[],
+        );
+        queueMicrotask(() => setPresetSelectValue(""));
+      }
     }
   };
 
-  const handleSavePreset = () => {
+  const handleSavePreset = async () => {
     const name = presetName.trim();
     if (!name) return;
-    addPreset({ name, selectedCategories: [...selectedCategories] });
-    setPresetName("");
+    const ok = await addPreset({
+      name,
+      selectedCategories: [...selectedCategories],
+    });
+    if (ok) setPresetName("");
+  };
+
+  const handleDeletePreset = async (id: number) => {
+    await removePreset(id);
   };
 
   /* Demo: modify shared expenses list (for testing shared state across pages) */
@@ -49,6 +79,13 @@ const ExpenseFilterPage = () => {
     <section>
       <h2>Expense Filter Page</h2>
 
+      {expensesLoading && <p aria-live="polite">Loading expenses…</p>}
+      {expensesError && (
+        <p role="alert" style={{ color: "crimson" }}>
+          Expenses: {expensesError}
+        </p>
+      )}
+
       <p>Total expenses (shared): {expenses.length}</p>
 
       <button onClick={addTestExpense}>Add Test Expense</button>
@@ -57,21 +94,53 @@ const ExpenseFilterPage = () => {
       </button>
 
       <div style={{ marginTop: "1rem" }}>
+        {isLoaded && !isSignedIn && (
+          <p role="status">
+            Sign in to load, save, and delete filter presets.
+          </p>
+        )}
+
+        {presetsLoading && <p aria-live="polite">Loading presets…</p>}
+        {presetsError && (
+          <p role="alert" style={{ color: "crimson" }}>
+            Presets: {presetsError}
+          </p>
+        )}
+
         <label htmlFor="preset-select">Saved presets: </label>
         <select
           id="preset-select"
-          defaultValue=""
+          value={presetSelectValue}
           onChange={handlePresetSelect}
           aria-label="Select a saved filter preset"
+          disabled={!isSignedIn || presetsLoading}
         >
           <option value="">-- Select a preset --</option>
           {presets.map((p) => (
-            <option key={p.id} value={p.id}>
+            <option key={p.id} value={String(p.id)}>
               {p.name}
             </option>
           ))}
         </select>
       </div>
+
+      {presets.length > 0 && (
+        <ul style={{ marginTop: "0.5rem" }}>
+          {presets.map((p) => (
+            <li key={p.id}>
+              {p.name}{" "}
+              <button
+                type="button"
+                onClick={() => void handleDeletePreset(p.id)}
+                disabled={!isSignedIn || presetsLoading}
+                aria-label={`Delete preset ${p.name}`}
+              >
+                Delete
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
 
       <div style={{ marginTop: "0.5rem" }}>
         <label htmlFor="preset-name">Save as preset: </label>
@@ -82,8 +151,13 @@ const ExpenseFilterPage = () => {
           onChange={(e) => setPresetName(e.target.value)}
           placeholder="Preset name"
           aria-label="Preset name"
+          disabled={!isSignedIn || presetsLoading}
         />
-        <button type="button" onClick={handleSavePreset}>
+        <button
+          type="button"
+          onClick={() => void handleSavePreset()}
+          disabled={!isSignedIn || presetsLoading}
+        >
           Save as preset
         </button>
       </div>
