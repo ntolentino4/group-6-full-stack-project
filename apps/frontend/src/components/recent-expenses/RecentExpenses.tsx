@@ -15,7 +15,7 @@ export const RecentExpenses = () => {
       if (!isLoaded || !isSignedIn) return;
       try {
         const token = await getToken();
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/expenses`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/expenses`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (response.ok) {
@@ -32,7 +32,7 @@ export const RecentExpenses = () => {
   const handleRemove = async (id: number) => {
     try {
       const token = await getToken();
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/expenses/${id}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/expenses/${id}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });

@@ -24,7 +24,7 @@ export const AddExpenseForm = () => {
 
     try {
       const token = await getToken();
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/expenses`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/expenses`, {
         method: "POST",
         headers: { 
             "Content-Type": "application/json",
