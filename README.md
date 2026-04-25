@@ -50,3 +50,60 @@ T.6: Team Vercel Account/Management - Neil Tolentino
 I.1: Recent Expenses List Component - Neil Tolentino
 I.1: Expense Filter Component - Ashley Rohleder
 I.1: Category Summary Component - Helen Castillo
+
+## Local Setup Instructions
+
+Follow these steps to get the Personal Expense Tracker running on your local machine.
+
+**1. Prerequisites**
+- Node.js (v18 or higher)
+- npm
+- A Clerk account (for Authentication)
+- A Neon.tech or PostgreSQL database instance
+
+**2. Installation**
+
+From the root directory, install dependencies for the entire monorepo:
+
+command: npm install
+
+**3. Environment Variables**
+
+You must create .env files in both the backend and frontend folders. Use the templates below:
+
+For Backend (apps/backend/.env): 
+
+PORT=3000
+DATABASE_URL="your_neon_postgresql_connection_string"
+CLERK_PUBLISHABLE_KEY="pk_test_..."
+CLERK_SECRET_KEY="sk_test_..."
+CLERK_WEBHOOK_SECRET="whsec_..." # Found in Clerk Dashboard > Webhooks
+
+For Frontend (apps/frontend/.env):
+
+VITE_CLERK_PUBLISHABLE_KEY="pk_test_..."
+VITE_API_URL="http://localhost:3000/api"
+
+**4. Database Setup**
+
+Once your DATABASE_URL is set, initialize your database schema and seed the initial categories:
+
+# Navigate to backend
+cd apps/backend
+
+# Generate Prisma Client and push schema to database
+npx prisma generate
+npx prisma migrate dev --name init
+
+# Seed the database (Categories: Food, Transport, etc.)
+npm run prisma db seed
+
+**6. Running the Application**
+
+You can start both applications simultaneously from the root directory:
+
+# From the root folder run:
+npm run dev
+
+- Frontend: http://localhost:5173
+- Backend: http://localhost:3000
