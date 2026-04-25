@@ -1,42 +1,15 @@
-import budgetRepository from "../apis/budgetRepo";
-import type { BudgetGoal, ExpenseCategory } from "../../../../shared/types";
+import * as budgetRepo from "../apis/budgetRepo";
+import type { BudgetGoal } from "../../../../shared/types";
 
-/**
- * Service layer to handle business logic (like validation) 
- * before calling the data repository.
- */
-const budgetService = {
-  getBudgets: async () => {
-    return await budgetRepository.getAll();
-  },
-
-  addBudget: async (
-    category: string,
-    limit: number,
-    existingBudgets: BudgetGoal[],
-  ) => {
-    // 1. Validation: Prevent duplicate categories
-    if (existingBudgets.some((b) => b.category === category)) {
-      throw new Error(`A budget for ${category} already exists.`);
-    }
-
-    // 2. Validation: Prevent negative limits
-    if (limit <= 0) {
-      throw new Error("Budget limit must be greater than 0.");
-    }
-
-    const newBudget: Omit<BudgetGoal, "id"> = {
-      category: category as ExpenseCategory,
-      limit: limit,
-    };
-
-    // Calls 'add' from budgetRepo
-    return await budgetRepository.add(newBudget);
-  },
-
-  deleteBudget: async (id: number) => {
-    return await budgetRepository.remove(id);
-  },
+export const getBudgets = async (token: string) => budgetRepo.getAll(token);
+export const deleteBudget = async (id: number, token: string) =>
+  budgetRepo.remove(id, token);
+export const createBudget = async (
+  data: Omit<BudgetGoal, "id">,
+  token: string,
+) => {
+  if (!data.category || data.category.trim() === "")
+    throw new Error("Category required.");
+  // Use data.limit or data.amount based on your type definitions
+  return await budgetRepo.create(data, token);
 };
-
-export default budgetService;

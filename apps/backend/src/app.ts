@@ -1,21 +1,23 @@
-import express, { Express } from "express";
+import express from "express";
 import cors from "cors";
-import corsOptions from "../config/cors";
-import filterPresetRoutes from "./routes/filterPresetRoutes";
-import budgetRoutes from "./routes/budgetRoutes";
+import webhookRoutes from "./routes/webhook";
+import { clerkMiddleware } from "@clerk/express"; // Official Clerk middleware
 import expenseRoutes from "./routes/expenseRoutes";
+import budgetRoutes from "./routes/budgetRoutes";
+import filterPresetRoutes from "./routes/filterPresetRoutes";
 
-const app: Express = express();
+const app = express();
 
-app.use(cors(corsOptions));
+app.use(cors());
+
+app.use("/api/webhooks", webhookRoutes);
 app.use(express.json());
-app.use("/api/budgets", budgetRoutes);
+
+// Essential: This middleware populates req.auth for all downstream routes
+app.use(clerkMiddleware());
+
 app.use("/api/expenses", expenseRoutes);
-
-app.get("/", (_req, res) => {
-  res.send("Expense Tracker API is running!");
-});
-
-app.use("/api/filter-presets", filterPresetRoutes);
+app.use("/api/my-budgets", budgetRoutes);
+app.use("/api/presets", filterPresetRoutes);
 
 export default app;

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { ExpenseCategory } from "../../../../shared/types";
-import { CategorySummary } from "../components/category-summary/CategorySummary";
+import CategorySummary from "../components/category-summary/CategorySummary";
 import ListPanel from "../components/shared/ListPanel";
 
 import { useExpenses } from "../hooks/useExpenses";
@@ -16,19 +16,11 @@ const ALL_CATEGORIES: ExpenseCategory[] = [
   "Shopping",
   "Health",
 ];
-/**
- * Component: CategoryTotalsPage
- * * Architectural Implementation Justification:
- * This component utilizes the hook-service-repository architecture to clearly separate solution concerns.
- * It invokes the `useBudgets` custom hook to manage UI state and presentation logic (e.g., refreshing the budget list).
- * The hook delegates data validation to `budgetService`, which contains our business logic—such as ensuring a budget limit
- * is greater than zero and preventing duplicate categories.
- * Finally, the service invokes `budgetRepository` to execute data access logic, fetching and modifying our mock database.
- * This separation ensures the UI component remains clean and only handles rendering.
- */
+
 const CategoryTotalsPage = () => {
-  const { expenses, addExpense, removeExpense } = useExpenses();
-  const { budgetGoals, addBudget, removeBudget } = useBudgets();
+  // 1. Rename 'budgets' to 'budgetGoals' during destructuring to match your JSX logic
+  const { expenses = [], addExpense, removeExpense } = useExpenses();
+  const { budgets: budgetGoals = [], addBudget, removeBudget } = useBudgets();
 
   const [formCategory, setFormCategory] = useState<ExpenseCategory | "">("");
   const [formAmount, setFormAmount] = useState<string>("");
@@ -37,10 +29,19 @@ const CategoryTotalsPage = () => {
     e.preventDefault();
     if (!formCategory || !formAmount) return;
 
-    const success = await addBudget(formCategory, formAmount);
-    if (success) {
+    // 2. Wrap arguments in an object. addBudget expects 1 argument: { category, limit }
+    // 3. Convert formAmount string to a Number
+    try {
+      await addBudget({
+        category: formCategory as ExpenseCategory,
+        limit: Number(formAmount),
+      });
+
+      // Clear form after success
       setFormCategory("");
       setFormAmount("");
+    } catch (error) {
+      console.error("Failed to add budget:", error);
     }
   };
 
@@ -65,11 +66,14 @@ const CategoryTotalsPage = () => {
   return (
     <section>
       <h2>Category Totals & Budgets</h2>
-      <p>Total expenses (shared): {expenses.length}</p>
+      <p>Total expenses (shared): {expenses?.length || 0}</p>
 
       <div className="controls-container">
         <button onClick={addTestExpense}>Add Test Expense</button>
-        <button onClick={removeOneExpense} disabled={expenses.length === 0}>
+        <button
+          onClick={removeOneExpense}
+          disabled={!expenses || expenses.length === 0}
+        >
           Remove One Expense
         </button>
       </div>
@@ -106,7 +110,7 @@ const CategoryTotalsPage = () => {
 
         <h3>Active Monthly Budgets</h3>
 
-        {budgetGoals.length === 0 ? (
+        {!budgetGoals || budgetGoals.length === 0 ? (
           <p className="empty-state">No budgets set yet.</p>
         ) : (
           <ul className="budget-list">
@@ -130,7 +134,7 @@ const CategoryTotalsPage = () => {
 
       <br />
 
-      <CategorySummary expenses={expenses} budgetGoals={budgetGoals} />
+      <CategorySummary />
     </section>
   );
 };

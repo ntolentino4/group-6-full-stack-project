@@ -1,30 +1,24 @@
+import { fetchWithAuth } from "./apiClient";
 import type { Expense } from "../../../../shared/types";
 
+export const getAll = async (token: string): Promise<Expense[]> => {
+  return await fetchWithAuth("/expenses", { method: "GET" }, token);
+};
 
-const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+export const create = async (
+  data: Omit<Expense, "id">,
+  token: string,
+): Promise<Expense> => {
+  return await fetchWithAuth(
+    "/expenses",
+    {
+      method: "POST",
+      body: JSON.stringify(data),
+    },
+    token,
+  );
+};
 
-export async function getAllExpenses(): Promise<Expense[]> {
-  // GET request to your new backend endpoint
-  const response = await fetch(`${API_URL}/api/expenses`);
-  if (!response.ok) throw new Error("Failed to fetch expenses");
-  return await response.json();
-}
-
-export async function addExpense(expense: Omit<Expense, "id">): Promise<Expense> {
-  // POST request to save to PostgreSQL
-  const response = await fetch(`${API_URL}/api/expenses`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(expense),
-  });
-  if (!response.ok) throw new Error("Failed to add expense");
-  return await response.json();
-}
-
-export async function deleteExpense(id: number): Promise<void> {
-  // DELETE request to remove from PostgreSQL
-  const response = await fetch(`${API_URL}/api/expenses/${id}`, { 
-    method: "DELETE" 
-  });
-  if (!response.ok) throw new Error("Failed to delete expense");
-}
+export const remove = async (id: number, token: string): Promise<void> => {
+  await fetchWithAuth(`/expenses/${id}`, { method: "DELETE" }, token);
+};

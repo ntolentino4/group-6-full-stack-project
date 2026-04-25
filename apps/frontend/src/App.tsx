@@ -8,14 +8,12 @@ import RecentExpensesPage from "./pages/RecentExpensesPage";
 import CategoryTotalsPage from "./pages/CategoryTotalsPage";
 
 function App() {
-
   return (
     <Routes>
-      <Route element={<Layout />}>
-        <Route path="/" element={<HomePage />} />
+      <Route path="/" element={<Layout />}>
+        <Route index element={<HomePage />} />
         <Route path="/expense-filter" element={<ExpenseFilterPage />} />
         <Route path="/recent-expenses" element={<RecentExpensesPage />} />
-        
         <Route path="/category-totals" element={<CategoryTotalsPage />} />
       </Route>
     </Routes>

@@ -3,11 +3,6 @@
 .app-header {
   background-color: var(--color-granite);
   color: white;
-  padding: 24px;
-  border-radius: var(--radius-lg);
-  margin-bottom: 32px;
-  text-align: center;
-  box-shadow: var(--card-shadow);
 }
 
 .app-header h1 {
@@ -19,6 +14,7 @@
 .main-nav {
   display: flex;
   justify-content: center;
+  align-items: center; /* Ensures text and buttons align vertically */
   gap: 16px;
   flex-wrap: wrap;
 }
@@ -44,4 +40,35 @@
   background-color: var(--color-lilac-ash);
   color: white;
   font-weight: bold;
+}
+
+/* --- Added for T.4: User Login/Registration UI --- */
+
+.auth-controls {
+  margin-left: 8px; /* Slight separation from navigation links */
+  display: flex;
+  align-items: center;
+}
+
+.login-btn {
+  background-color: var(--color-lilac-ash); /* Uses your existing theme color */
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-weight: 500;
+  font-size: var(--font-size-body);
+  transition: opacity 0.2s;
+}
+
+.login-btn:hover {
+  opacity: 0.9;
+}
+
+/* Standardizes the size of the Clerk User Profile button */
+.cl-userButtonBox {
+  height: 40px;
+  display: flex;
+  align-items: center;
 }
