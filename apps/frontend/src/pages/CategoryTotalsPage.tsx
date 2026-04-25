@@ -134,8 +134,7 @@ const CategoryTotalsPage = () => {
 
       <br />
 
-      {/* 4. Pass the shared data to the summary component */}
-      <CategorySummary expenses={expenses} budgetGoals={budgetGoals} />
+      <CategorySummary />
     </section>
   );
 };

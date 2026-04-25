@@ -4,10 +4,10 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export default defineConfig({
-  datasources: {
+  datasource: {
     url: process.env.DATABASE_URL,
   },
-  // ADD THIS SECTION:
+
   migrations: {
     seed: 'ts-node prisma/seed.ts',
   },

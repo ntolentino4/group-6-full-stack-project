@@ -1,17 +1,4 @@
-import process from "process";
-import { PrismaClient } from "@prisma/client";
-import * as dotenv from "dotenv";
-
-// Load environment variables from .env (for local) or process (for Vercel)
-dotenv.config();
-
-const prisma = new PrismaClient({
-  datasources: {
-    db: {
-      url: process.env.DATABASE_URL,
-    },
-  },
-});
+import prisma from "./client";
 
 async function main() {
   const categories = [
