@@ -1,4 +1,3 @@
-import React from 'react';
 import { RecentExpenses } from "../components/recent-expenses/RecentExpenses";
 import { AddExpenseForm } from "../components/recent-expenses/AddExpenseForm";
 
